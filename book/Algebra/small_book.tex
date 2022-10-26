@@ -1,0 +1,63 @@
+\documentclass[lang=cn,10pt,cm]{elegantbook}
+\usepackage{boondox-cal}
+
+\title{高等代数：小册子}
+
+\author{David}
+\date{Sep 4, 2022}
+\version{1.0}
+
+\extrainfo{
+	\normalsize
+	\begin{flushleft}
+	- \emph{Why do we fall? So we can learn to pick ourselves up.}	\\ 
+	-- \emph{Alfred}
+	\end{flushleft}
+	}
+
+\setcounter{tocdepth}{3}
+
+% \logo{logo-blue.png}
+\cover{cover1.jpg}
+
+% 本文档命令
+\usepackage{dutchcal}
+\usepackage{array}
+\usepackage{fixdif}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+\elegantnewtheorem{ex}{真题}{defstyle}{problem}
+
+% 修改标题页的橙色带
+\definecolor{customcolor}{RGB}{32,178,170}
+\colorlet{coverlinecolor}{customcolor}
+\usepackage{cprotect}
+
+\newcommand\vc{\alpha^\prime}
+\newcommand\ts[1]{#1^{\prime}}
+\newcommand\qed{\par \hfill $\blacksquare$ \par}
+\newcommand\lm[1]{|_{_{#1}}}
+
+\includeonly{section1,section2,section3,section4,section5}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+\include{section1.tex}
+
+\include{section2.tex}
+
+\include{section3.tex}
+
+\include{section4.tex}
+
+\include{section5.tex}
+
+
+\end{document}

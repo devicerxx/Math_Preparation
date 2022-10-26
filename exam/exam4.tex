@@ -1,0 +1,151 @@
+% 使用 BHCexam 文档类，并传递选项
+\documentclass{BHCexam}[windows]
+\usepackage{hyperref}
+% \usepackage[normal]{fixdif}
+% \usepackage{ctex, draftwatermark, everypage}
+% \SetWatermarkText{文字水印}
+% \SetWatermarkLightness{0.95}
+% \SetWatermarkScale{0.8}
+\usepackage{unicode-math}
+\usepackage{amsmath,amssymb,mathrsfs}
+
+\usepackage{mathtools} % added
+\usepackage{calc}
+\usepackage{mathdots}
+\usepackage{bbm}
+
+\let\mathbb\relax % remove the definition by unicode-math
+\DeclareMathAlphabet{\mathbb}{U}{msb}{m}{n}
+
+\newcommand{\getlengthratio}[2]{%
+    \number\numexpr
+    \dimexpr#1\relax
+    /
+    \dimexpr#2\relax
+    \relax} 
+
+\newcommand{\GetMatrix}{}
+\newlength{\MWi}
+\newlength{\MWii}
+\newcounter{MWiii}
+
+\newcommand{\squarefy}[2]{%
+\renewcommand{\GetMatrix}{} 
+\renewcommand{\arraystretch}{1}
+\renewcommand{\GetMatrix}{#1}
+\setlength{\MWi}{\widthof{$\displaystyle\GetMatrix$}}
+\setlength{\MWii}{\heightof{$\displaystyle\GetMatrix$}}
+\setcounter{MWiii}{\getlengthratio{0.5\MWi}{\MWii}}
+\renewcommand{\arraystretch}{\theMWiii} %% added
+\[#2#1\]}
+
+\begin{document}
+	
+	% 第一行主标题
+	\title{ECNU 2022 高等代数}
+	% \notice{注：满分150分, 180分钟完成.}
+	
+	% 生成试卷头
+	\maketitle
+	
+	\begin{groups}
+        \begin{questions}
+            \question
+            考虑数域$\mathbb{K}$上的线性方程组
+            \begin{equation*}
+                \left\{ 
+                \begin{aligned}
+                    &x_1 + x_2 + 2a x_3 = 2 \\
+                    &x_1 + 3b x_2 + x_3= 2 \\
+                    &x_1 + x_2 - a x_3 = 1
+                \end{aligned}
+                \right.
+            \end{equation*}
+            问$a,b$取何值时，方程组无解，有唯一解，有无穷多解，且在方程组有解时，求出所有解.
+        \end{questions}
+
+        \begin{questions}
+            \question
+            设3阶实对称阵$A$的秩为$2$，且$-2$是它的二重特征值，若$(1,0,0)^\prime, (2,1,1)^\prime$都是
+            $A$的属于特征值$-2$的特征向量，求矩阵$A$.
+        \end{questions}
+
+        \begin{questions}
+            \question 
+            考虑未定元为$x,y$的次数至多为2的复系数二元多项式空间，求线性变换$\mathscr{A}: \, f(x,y) \mapsto 
+            f(2x+1,2y+1)$的Jordan标准型.
+        \end{questions}
+
+        \begin{questions}
+            \question
+            设$\sigma$是有限维欧氏空间$V$上的正交变换，且满足$\sigma^m=\epsilon$，这里$m \geq 1, \epsilon$为恒等变换，
+            记$V^\sigma = \{ v \in V: \, \sigma(v) = v \},V^\sigma$的正交补记为$V^{\sigma \perp}$.
+            \begin{subquestions}
+                \subquestion 对于$v \in V$，定义$\bar{v}=\dfrac{1}{m} \sum \limits_{i=1}^m \sigma^i(v),$证明：$\bar{v} \in V^\sigma$.
+                \subquestion 证明：若将$v\in V$展开成$v = v_1 + v_2$，其中$v_1 \in V^\sigma, v_2\in V^{\sigma \perp}$，
+                则$v_1 = \bar{v}$.
+            \end{subquestions}
+        \end{questions}
+
+        \begin{questions}
+            \question
+            设$f(x)$是次数大于0的整系数多项式，若$2-\sqrt{3}$是$f(x)$的根，证明：
+            $2+\sqrt{3}$也是$f(x)$的根.
+        \end{questions}
+
+        \begin{questions}
+            \question
+            设$V$是在复数域$\mathbb{C}$上的$n$维线性空间，$\mathscr{A}$是$V$上的线性变换.
+            \begin{subquestions}
+                \subquestion 证明：存在正整数$k\leq n$，使得$Im \, \mathscr{A}^k = Im \, \mathscr{A}^{k+1} = \cdots = Im \, \mathscr{A}^n$且
+                $Ker \, \mathscr{A}^k = Ker \, \mathscr{A}^{k+1}  =\cdots =  Ker \, \mathscr{A}^n = $
+                \subquestion 考虑如下特征指标：
+                \begin{enumerate}
+                    \item $\mathscr{A}$的秩为$r$.
+                    \item $\mathscr{A}$的特征值为0的Jordan块个数为$m$.
+                    \item $\mathscr{A}$的特征值为0的Jordan块阶数为$n$.
+                    \item 第(1)问种出现的最小的$k$.
+                \end{enumerate}
+            \end{subquestions}
+        \end{questions}
+
+        \begin{questions}
+            \question
+            设$V$是实内积空间，$\langle \cdot \rangle$是$V$上的内积，$\varphi$是$V$上的可逆线性变换满足：
+            $$
+                \langle \varphi \left(\varphi(x) \right) ,y \rangle = \langle x, \varphi(y)
+                \rangle, \, \forall x,y \in V. 
+            $$
+            证明：$\varphi$是正交变换.
+        \end{questions}
+
+        \begin{questions}
+            \question
+            设$U,V,W$是6维空间的3个3维子空间，设$U \cap V = 0$，求$dim\,[(U+V) \cap (V+W)]$的
+            最大值和最小值.
+        \end{questions}
+
+        \begin{questions}
+            \question
+            \begin{subquestions}
+                \subquestion 设$A\in M_n(\mathbb{R})$是半正定实对称阵，$x\in \mathbb{R}^n$，证明：$x^\prime A x = 0$等价于$Ax=0$.
+                \subquestion 设$A$为$n$阶半正定实对称阵，将其写成分块矩阵的形式
+                \squarefy{\begin{pmatrix}
+                    A_1 & A_2 \\
+                    A_2^\prime & A_4
+                \end{pmatrix}}{A = }
+                其中$A_1$是$r$阶方阵，证明对$x\in \mathbb{R}^r$，若$A_1x=0$，则$A_2^\prime x=0$.
+                \subquestion 设$A,B$是$n$阶半正定实对称阵，且$r(A)=r$. 证明：存在$n$阶可逆阵$p$使得
+                $$
+                    P^\prime A P = \begin{pmatrix}
+                        I_r & O \\
+                        O & O
+                    \end{pmatrix}, \quad P^\prime B P = diag \{ \lambda_1, \dots, \lambda_n \}
+                $$
+                其中$I_r$为$r$阶单位阵.
+            \end{subquestions}
+            
+
+        \end{questions}
+	\end{groups}
+\end{document}

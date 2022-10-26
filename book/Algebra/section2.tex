@@ -1,0 +1,659 @@
+\chapter{矩阵}
+
+\begin{introduction}
+	\item 秩不等式
+	\item 可逆的转换
+	\item Sylvester不等式
+	\item Frobenius不等式
+\end{introduction}
+
+\section{秩不等式}
+
+秩不等式对于解决很多等式和不等式的证明中，可以很轻松地化繁为简，理清证明思路。因此熟练掌握秩不等式的
+各种结论是很有必要的。
+
+下面我们依次证明几个最最最基本的矩阵秩的公式：
+\begin{lemma}
+	\begin{enumerate}[(1)]
+		\item 若$k \neq 0$，$r(kA)=r(A)$.
+		\item $r(AB) \leq \min\{r(A), r(B) \}; r(A^2) \leq r(A)$.
+		\item $r \begin{pmatrix}
+			A & O \\
+			O & B 
+		\end{pmatrix}=r(A) + r(B)$.
+		\item $r \begin{pmatrix}
+			A & C \\
+			O & B 
+		\end{pmatrix} \geq r(A) + r(B)$ 或者 $r \begin{pmatrix}
+			A & O \\
+			D & B 
+		\end{pmatrix} \geq r(A) + r(B)$. 
+		\item $r(A \vert B)\leq r(A) + r(B)$.
+		\item $r(A + B) \leq r(A) + r(B)$.
+	\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+
+	(1): $kA=P_1(k)P_2(k)\dots P_n(k) A$，$P_i(k)$为第二类初等矩阵，左乘意味着对矩阵$A$的第$i$行
+	同时乘非零常数$k$，初等阵不改变矩阵的秩.
+
+	(2): 设$A$为$m\times n$矩阵，$B$为$n \times s$矩阵，我们把矩阵 $B$ 进行列分块 
+	$(\beta_1,\beta_2,\dots,\beta_s)$，则$AB=A(\beta_1,\beta_2,\dots,\beta_s)\\=
+	(A\beta_1,A\beta_2,\dots,A\beta_s)$. 若$B$的列向量的极大线性无关组为$\{\beta_{j_1}
+	,\beta_{j_2},\dots,\beta_{j_r}\}$，则$B$中任意一个列向量$\beta_j$均可用 $\{\beta_{j_1}
+	,\beta_{j_2},\dots,\beta_{j_r}\}$线性表示，于是任意$A\beta_j$也可用$\{A\beta_{j_1}
+	,A\beta_{j_2},\dots,A\beta_{j_r}\}$线性表示。因此向量组$\{A\beta_{1},A\beta_{2},
+	\dots,\\A\beta_{s}\}$的秩不超过$r$，即$r(AB)\leq r(B)$. 同理可得另一边.
+
+	\begin{remark}
+		我们可以很轻易的得到结论，两个矩阵相乘，秩要么不变，要么会变小，乘的矩阵越多，变的越小。
+		因此很容易理解这个不等式：
+		$$
+			r(A) \geq r(A^2) \geq r(A^3) \dots \geq r(A^n).
+		$$
+	\end{remark}
+
+	(3): 用简单的相抵标准型可证。 设矩阵$A$的秩为$r_1$，$B$的秩为$r_2$，则存在可逆矩阵$P_1,P_2,Q_1,Q_2$
+	使得$A,B$变为相抵标准型，即$P_1AQ_1=\begin{pmatrix}
+		I_{r_1} & O \\
+		O & O
+	\end{pmatrix}$，$P_2BQ_2=\begin{pmatrix}
+		I_{r_2} & O \\
+		O & O
+	\end{pmatrix}$.
+	$$
+		\begin{pmatrix}
+			P_1 & O \\
+			O & P_2
+		\end{pmatrix} 
+		\begin{pmatrix}
+			A & O \\
+			O & B
+		\end{pmatrix} 
+		\begin{pmatrix}
+			Q_1 & O \\
+			O & Q_2
+		\end{pmatrix} = 
+		\begin{pmatrix}
+			I_{r_1} & O & O & O \\
+			O & O & O & O \\
+			O & O & I_{r_2} & O \\
+			O & O & O & O \\
+		\end{pmatrix}
+	$$
+	因此，分块对角阵的秩为各分块的秩的和。
+
+	(4): 假设同(3)，作以下矩阵乘法：
+	$$
+		\begin{pmatrix}
+			P_1 & O \\
+			O & P_2
+		\end{pmatrix} 
+		\begin{pmatrix}
+			A & C \\
+			O & B
+		\end{pmatrix} 
+		\begin{pmatrix}
+			Q_1 & O \\
+			O & Q_2
+		\end{pmatrix} = 
+		\begin{pmatrix}
+			P_1AQ_1 & P1CQ_2 \\
+			O & P_2BQ_2 
+		\end{pmatrix}
+	$$
+	对$P1CQ_2$进行分块$\begin{pmatrix}
+		C_{11} & C_{12} \\
+		C_{21} & c_{22}
+	\end{pmatrix}$，则可以化简为
+	$$
+		\begin{pmatrix}
+			P_1AQ_1 & P1CQ_2 \\
+			O & P_2BQ_2 
+		\end{pmatrix}=
+		\begin{pmatrix}
+			I_{r_1} & O & C_{11} & C_{12} \\
+			O & O & C_{21} & C_{22} \\
+			O & O & I_{r_2} & O \\
+			O & O & O & O \\
+		\end{pmatrix}
+	$$
+	把$C_{11},C_{12},C_{21}$消去可得
+	$$
+	\begin{pmatrix}
+		I_{r_1} & O & O & O \\
+		O & C_{22} & O & O  \\
+		O & O & I_{r_2} & O \\
+		O & O & O & O \\
+	\end{pmatrix}
+	$$
+	命题得证.
+
+	(5): 注意到等式的右边为两个矩阵秩的和，我们想用(3)的结论，因此考虑如下矩阵乘法：
+	$$
+		\begin{pmatrix}
+			I & I 
+		\end{pmatrix}
+		\begin{pmatrix}
+			A & O \\
+			O & B
+		\end{pmatrix} = (A \vert B)
+	$$
+	矩阵乘法秩会变小，于是$r(A \vert B) \leq r(A) + r(B)$.
+
+	(6) 考虑如下矩阵乘法:
+	$$
+		\begin{pmatrix}
+			A & B
+		\end{pmatrix}
+		\begin{pmatrix}
+			I \\
+			I
+		\end{pmatrix} = A + B
+	$$
+	和(5)的方法一样，利用乘法秩会变小得出$r(A+B) \leq r(A \vert B) \leq r(A) + r(B)$. 
+	\qed
+\end{proof}
+
+通过证明上面结论，我们可以发现，利用分块矩阵的初等变化不改变矩阵的秩和矩阵乘法使得秩变小的两个
+重要的结论，下面通过两个简单的例题体会分块初等变换这一思想。
+
+\begin{proposition}
+	求证：$n$阶矩阵$A$是幂等矩阵(即$A^2=A$)，的充要条件是:
+	$$
+		r(A) + r(I_n - A) = n
+	$$
+\end{proposition}
+
+\begin{proof}
+	看到两个矩阵的秩的和，我们很容易想到引理的第三条，因此构造出这样的一个矩阵：
+	$$
+		\begin{pmatrix}
+			A & O \\
+			O & I_n - A 
+		\end{pmatrix}
+		\to 
+		\begin{pmatrix}
+			A & A \\
+			O & I_n - A 
+		\end{pmatrix}
+		\to
+		\begin{pmatrix}  
+			A & A \\
+			A & I_n
+		\end{pmatrix}
+		\\
+		\to
+		\begin{pmatrix}
+			A-A^2 & O \\
+			O & I_n
+		\end{pmatrix}
+	$$
+	初等变化并不改变矩阵的秩，$r\begin{pmatrix}
+		A & O \\
+		O & I_n - A 
+	\end{pmatrix}=r(A) + r(I_n-A) = r\begin{pmatrix}
+		A-A^2 & O \\
+		O & I_n
+	\end{pmatrix} = r(A^2-A)+n = n$.
+	\qed
+\end{proof}
+
+\begin{proposition}[Sylvester不等式]
+	设$A$是$m\times n$的矩阵，$B$是$n \times s$矩阵，求证：
+	$$
+		r(AB) \geq r(A) + r(B) - n
+	$$
+\end{proposition}
+
+\begin{proof}
+	考虑同样构造分块阵：
+	$$
+		\begin{pmatrix}
+			AB & O \\
+			O & I_n 
+		\end{pmatrix} \to
+		\begin{pmatrix}
+			AB & A \\
+			O & I_n
+		\end{pmatrix} \to
+		\begin{pmatrix}
+			O & A \\
+			-B & I_n
+		\end{pmatrix} \to
+		\begin{pmatrix}
+			A & O \\
+			I_n & B
+		\end{pmatrix}
+	$$
+	因此可得$r\begin{pmatrix}
+		AB & O \\
+		O & I_n 
+	\end{pmatrix}=r(AB) + n=r\begin{pmatrix}
+		A & O \\
+		I_n & B
+	\end{pmatrix} \geq r(A) + r(B)$
+	\qed
+\end{proof}
+
+\begin{remark}
+	我们注意到，当$AB=O$时，这个比较特殊：
+	$$
+		r(A) + r(B) \leq n
+	$$
+	相当于给了我们的一个上界.
+\end{remark}
+
+将Sylvester不等式进行推广.
+
+\begin{proposition}[Frobenius不等式]
+	证明：$r(ABC) \geq r(AB) + r(BC) - r(B)$
+\end{proposition}
+
+\begin{proof}
+	我们已经比较熟悉这个思想了，考虑如下分块构造：
+	$$
+		\begin{pmatrix}
+			ABC & O \\
+			O & B
+		\end{pmatrix} \to
+		\begin{pmatrix}
+			ABC & AB \\
+			O & B
+		\end{pmatrix} \to
+		\begin{pmatrix}
+			O & AB \\
+			-BC & B
+		\end{pmatrix} \to
+		\begin{pmatrix}
+			AB & O \\
+			B & BC
+		\end{pmatrix}
+	$$
+	可得$r\begin{pmatrix}
+		ABC & O \\
+		O & B
+	\end{pmatrix}=r(ABC) + r(B) = r\begin{pmatrix}
+		AB & O \\
+		B & BC
+	\end{pmatrix}\geq r(AB)+ r(BC)$.
+	\qed
+\end{proof}
+
+\begin{ex}[吉林大学2013]
+	设$A$为任意$n$阶实方阵，证明：
+	\begin{enumerate}
+		\item $r(A^\prime A) = r(A)$
+		\item 若$r(A^2)=r(A)$，则对任意的自然数$p$，成立$r(A^p)=r(A)$
+		\item (拓展) [北师大2020] 若$A$是$m \times n$实矩阵，$b$是$m$维列向量，证明： $A^\prime AX = A^\prime b$方程有解
+	\end{enumerate}
+\end{ex}
+
+\begin{proof}
+	
+	(1): 第一题的结论可以拓展，白皮书的p151页，证明：$r(A^\prime A)=r(A A^\prime)=r(A)$. 当然
+	第一题和我们的秩不等式没有太大的关系，考虑线性方程组的同解问题来求解这道题。 这道题要证明的结论
+	相当于 $Ax=0, A^\prime Ax=0$同解。 注意到任取$\alpha$为$Ax=0$的解，该解仍然是$A^\prime Ax=0$
+	的解，因此，解空间$V_A \subseteq V_{A^\prime A}$. 反之，若任取$\alpha$为$A^\prime Ax=0$的一组解，
+	我们等式两边同时左乘$\alpha^\prime$:
+	$$
+		\alpha^\prime A^\prime A \alpha = 0 \to 
+		(A\alpha)^\prime A \alpha = 0
+	$$
+	记$A\alpha = (b_1,b_2,\dots,b_m)^\prime$，则可化简为：
+	$$
+		b_1^2 + b_2^2 + \dots b_m^2 = 0
+	$$
+	当且仅当每一个分量都是0，因此该解也是$Ax=0$的解，$V_{A^\prime A} \subseteq V_A$，两个
+	空间相互包含，因此两个解空间相等，则他们同解，$r(A^\prime A) = r(A)$。用$A^\prime$替换
+	上述等式，得$r(A A^\prime)=r(A^\prime)=r(A)$.
+
+	(2): 通过\textbf{Frobenius}不等式和$r(A)=r(A^2)$可知：
+	$$
+		r(A^3) + r(A) \geq r(A^2) + r(A^2). \to 
+		r(A^3) \geq r(A^2)
+	$$
+	通过这个我们可以立马反应过来，矩阵的乘法会使得秩要么不变，要么变小，因此$r(A^3) \leq r(A^2) \leq r(A)$.
+	所以$r(A^3)=r(A)$，不断应用\textbf{Frobenius}不等式，我们可以得到结论$r(A^p)=r(A)$.
+
+	(3): 非齐次线性方程组有解，当且仅当系数矩阵的秩和增广矩阵的秩相等。因此需要证$r(A^ \prime A)=r(A^ \prime A, A^\prime b)$.
+	\begin{align*}
+		r(A^\prime A, A^\prime b) &= r(A^\prime (A, b)) \leq r(A^\prime) = r(A^\prime A)
+		\\
+		r(A^\prime A, A^\prime b) &\geq r(A^\prime A)
+		\\
+		\to r(A^\prime A, A^\prime b) &= r(A^\prime A)
+	\end{align*}
+	因此一定有解.
+	\qed
+\end{proof}
+
+对于我们前面的理解来说，矩阵越乘越多，秩会越来越小，这种说法不一定严谨，我们已经从上题发现：
+如果从二阶相等开始，后面的都是相等的，那如果没有相等，越乘越多的矩阵后面的秩会发生怎样的变化呢。
+
+\begin{proposition}
+	设$A$为任意$n$阶方阵，证明：
+	$$
+		r(A^{n}) = r(A^{n+1}) = \dots
+	$$
+\end{proposition}
+
+\begin{proof}
+	我们用代数的方法证明，几何的版本类似。
+	
+	根据矩阵秩不等式，即越乘越小可得：
+	$$
+		n=r(I_n) \geq r(A) \geq r(A^2) \dots \geq r(A^{n}) \geq r(A^{n+1}) \geq 0
+	$$
+	即，我们得到$n+2$个正整数，因为矩阵的秩一定为正整数，这$n+2$个数分布在区间$[0,n]$里面，
+	根据抽屉原理，我们可以得知，一定有两个秩是相等的，则存在正整数$m \in [0,n]$使得$r(A^m)=r(A^{m+1})$.
+	对于任意的$k \geq m$，我们应用Frobenius不等式可得：
+	$$
+		r(A^{k+1}) = r(A^{k-m}A^m A) \geq r(A^{k-m}A^m) + r(A^m A) - r(A^m)
+		\to r(A^{k+1}) \geq r(A^k) 
+	$$
+	并且我们有$r(A^{k+1}) \leq r(A^k)$，可得$r(A^{k+1}) = r(A^k)$ 对于任意的$k \geq m$成立.
+	\qed
+\end{proof}
+
+这道题结论很有趣，但也可以用其他的方法证明。
+
+\begin{ex}[SJTU 2022]
+	设$A$为$n$阶方阵，证明：
+	\begin{enumerate}
+		\item 若$A^{n+1}=0$，则$A^n=0$.
+		\item $r(A^n) = r(A^{n+1})$
+	\end{enumerate}
+\end{ex}
+
+\begin{proof}
+	我们可以观察到，第一题是第二题的特例，第二题不就是我们刚刚证明的有趣的命题嘛。优先证明
+	第二小问，先证明引理Frobenius不等式，再用命题1.4的证法，即可得.
+	\qed
+\end{proof}
+
+\begin{itemize}
+	\item 想念时会呼吸的痛，
+
+	它活在我身上所有角落。                        
+	
+	-- 《会呼吸的痛》
+\end{itemize}
+
+\chapter{暂时不知道如何归类的题目}
+
+\begin{introduction}
+	\item \emph{在充满爱的地方永远不会有黑暗.}
+	\item \emph{Là où il y a de l'amour,}
+	\item \emph{il n'y aura jamais d'obscurité}
+\end{introduction}
+
+\section{1}
+
+有些题目的标准解法比较的繁琐，虽容易想到，却给人一种解法不漂亮优美的感觉。下面有几道题的解法
+很巧妙，简洁，启发思路。
+
+\begin{proposition}
+	设$A$是$n$阶方阵，且$A$满足$A+A^\prime = E$，证明$A$是可逆阵.
+\end{proposition}
+
+\begin{proof}
+	证明可逆阵，我们可以考虑齐次线性方程组$Ax=0$的系数矩阵的秩$r(A)$，若为满秩，则可逆。
+	我们用反证法，即$r(A)$不是满秩，则有非零解$\alpha$满足$A\alpha = 0$.
+	
+	因为$\alpha$是非零向量，因此对这个适合$A$的等式，同时左乘$\alpha^\prime$.
+	$$
+		\alpha^\prime A \alpha = 0
+	$$
+	注意到$\alpha^\prime A \alpha$是一个数，因此转置等于它本身$\alpha^\prime A^\prime \alpha=0$.
+	$$
+		0 < \alpha^\prime \alpha = \alpha^\prime (A + A^\prime) \alpha = 0
+	$$
+	得到矛盾，因此$A$为满秩阵， 即$A$可逆.
+	\qed
+\end{proof}
+
+\begin{ex}[北师大 2017]
+	设$A,B$为$n$阶实矩阵，$A$同时为对称矩阵，且矩阵$AB+B^\prime A$正定，求证：$A$是非奇异阵.
+\end{ex}
+
+\begin{proof}
+	为什么又没有想到这么漂亮的解法，下次看到非异阵，一定要想着用反证法加解空间的性质。
+
+	先给标答，我写的不太一样，它的更漂亮。
+
+	反证法：设$A$为奇异阵，则考虑齐次线性方程组$Ax=0$一定有非零解$x_0$，已知条件正定，则
+	\begin{align*}
+		x_0^\prime (AB+B^\prime A)x_0 &> 0 \\ 
+		0=(A x_0)^\prime B x_0  + x_0 ^\prime B^\prime A x_0 &> 0
+	\end{align*}
+	得到矛盾.
+
+	我的解法：利用任意一个矩阵可以分解成一个对称矩阵和一个反对称矩阵.
+	\begin{align*}
+		\alpha^\prime AB \alpha &= \dfrac{1}{2}\alpha^\prime \bigl(AB + (AB)^\prime\bigr) \alpha +  \dfrac{1}{2}\alpha^\prime \bigl( AB - (AB)^\prime\bigr) \alpha \\
+		\alpha^\prime AB \alpha &= >0 + 0 \\
+		\alpha^\prime AB \alpha &> 0  
+	\end{align*}
+	则$AB$正定，于是$|AB|=|A|\cdot |B| > 0 \implies |A| \neq 0$.
+	\qed{}
+\end{proof}
+
+\section{判断行列式大于零--介值定理}
+
+介值定理对于解决行列式大于零是一种很特别的方法，远比其他方法来的直观且方便（个人感受 > <.）
+通过几个例子来感受这个深刻的解法.
+
+\begin{theorem}[介值定理]
+	若$[a,b]$是实数域上的闭区间，且$f$是这个区间上的连续函数，则对于任意的$u \in [a,b]$,存在最大值$c$和最小值$d$满足：
+	$$
+		c \leq f(u) \leq d
+	$$
+\end{theorem}
+
+描述的不太严谨，但一定对实数域上的连续函数成立，可由实数的完整性证明.
+
+\begin{proposition}
+	设$A$为$n$阶实对称矩阵，$S$为$n$阶实反对称矩阵，证明：$\vert A + S \vert > 0$.
+\end{proposition}
+
+\begin{proof}
+	我们看到实对称矩阵，可以立马想到它的性质：
+	\begin{enumerate}
+		\item $\forall \alpha \in \mathbb{R}^n \neq 0, \vc A \alpha >0$.
+		\item $\vert A \vert > 0$.
+	\end{enumerate}
+	也就是说我们已知$\vert A \vert >0$，即$\vert A + 0 \cdot S \vert >0$，要证明只是当$S$前面的
+	系数为1的时候，把这个行列式看成函数$f(t) = \vert A + t \cdot S \vert$在$t=1$时候的取值恒正。
+	
+	\emph{Step 1}：先证明这个函数在$[0,1]$区间内，恒不为0. 考虑齐次线性方程组$(A+t\cdot S)x=0$.
+	用反证法，假设有非零解$\alpha \in \mathbb{R}^n$.
+	\begin{align*}
+		(A + t\cdot S) \alpha = 0 \to \vc (A + t\cdot S) \alpha=0 \to 
+		\vc A \alpha + \vc t\cdot S \alpha=0 \to \vc A \alpha=0
+	\end{align*}
+	$A$为实对称矩阵，满足$\vc A \alpha=0$当且仅当$A=0$则$\vert A \vert >0$矛盾。因此$\vert A + t \cdot S \vert \neq 0$在区间$[0,1]$恒成立.
+
+	\emph{Step 2}：证明恒大于0.
+	$f(t)$是关于$t$的连续函数在区间$[0,1]$内恒不为0，且$f(0)>0$，因此根据介值定理，$f(t)$在$[0,1]$区间内
+	恒大于0，$f(1)>0$.
+	\qed
+\end{proof}
+
+\section{解题 技巧}
+
+有些引理亦或者定理，如果不知道，没见过，那你都不知道，参考答案都看不懂... 补充一些例题，但这些例题最好当作
+已知的定理来熟知并使用.
+
+\section*{行列式求导}
+
+数值的行列式是不能求导的，这里我们特别指的是行列式里的元素是带变量的可微函数
+
+\vspace{0.2cm}
+记$A^\prime(t) =
+\left( \dfrac{\d}{\d t} a_{ij}(t) \right)_{n\times n}$.
+
+\begin{lemma}
+	记$A(t)$为$n$阶行列式，且$a_{ij}(t)$是含变量$t$的可微函数. 将$A$列分块，$A=(\alpha_1, \alpha_2, \dots, \alpha_n)$.
+	\begin{align*}
+		\dfrac{\d}{\d t} | A(t) | = \sum _ {i=1} ^n (\alpha_1(t), \dots, \alpha^\prime_i(t),\dots,\alpha_n(t))
+	\end{align*}
+\end{lemma}
+
+\section*{Lagrange插值多项式}
+
+Lagrange插值在许多领域都应用广泛，尤其是数值分析。这里我们使用多项式的形式来介绍并使用，
+参考白皮书p184页. 
+
+\begin{lemma}
+	设$a_0,a_1,\dots,a_n$是数域$\mathbb{K}$中的$n+1$个不同的数，$b_0,b_1,\dots,b_n$是$\mathbb{K}$中
+	的任意$n+1$个数，则必存在$\mathbb{K}$中次数不超过$n$次的多项式$f(x)$，使得$f(a_i)=b_i(i=0,1,\dots,n)$. 
+	试将$f(x)$构造出来.
+\end{lemma}
+
+\begin{proof}
+	我们认定构造出来的映射是映上的，也就是满射的，现在来构造$f(x)$.
+
+	设$e_i=(0,\dots,1,\dots,0)$是标准单位行向量$(i=0,\dots,n)$，且在第$i$位是$1$，我们让$\varphi(f_i)=e_{i+1}$.
+	$$
+		f_i(x) = \dfrac{(x-a_0)(x-a_1)\cdots\widehat{(x-a_i)}\cdots(x-a_n)}{(a_i-a_0)(a_i-a_1)\cdots\widehat{(a_i-a_i)}\cdots(a_i-a_n)}, \,\, 
+		\widehat{(x-a_i)}\text{表示没有这一项}.
+	$$
+	则我们可以易得$f_i(a_i)=1, f_i(a_j)=0(j\neq i)$.
+	$$
+		f(x) = b_0f_0(x) + b_1f_1(x) + \cdots + b_nf_n(x).
+	$$
+	易验证$f(a_i)=b_i$.
+	\qed{}
+\end{proof}
+
+\begin{proposition}
+	设$A$是$n$阶方阵且有$n$个不同的特征值，若$B$也是$n$阶方阵且$AB=BA$，求证：存在次数不超过$n-1$
+	的多项式$f(x)$，使得$B=f(A)$.
+\end{proposition}
+
+\begin{proof}
+	我们需要先知道一个引理，这个引理将会在对角化这一小节中证明：$A,B$都是$n$阶方阵，若$A$可对角化，且$AB=BA$，则
+	$A,B$可同时对角化.
+
+	设$A$的全体特征值为$\lambda_1, \lambda_2, \dots, \lambda_n$，$B$的全体特征值为$\mu_1,\mu_2,\dots,\mu_n$.
+
+	用上面的引理，我们可知，存在可逆阵$P$，使得
+	$$
+		P^{-1} A P = \begin{pmatrix}
+			\lambda_1 & & &\\
+			& \lambda_2 & & \\
+			& & & \ddots & \\
+			& & & & \lambda_n
+		\end{pmatrix}, \quad \quad P^{-1} B P = \begin{pmatrix}
+			\mu_1 & & &\\
+			& \mu_2 & & \\
+			& & & \ddots & \\
+			& & & & \mu_n
+		\end{pmatrix}.
+	$$
+	我们由上面的引理可知，存在次数小于$n-1$的Lagrange插值多项式使得$f(\lambda_i)=\mu_i$,
+	$$
+		P^{-1} B P = f(P^{-1} A P) = P^{-1} f(A) P
+	$$
+	\qed{}
+\end{proof}
+
+\section*{Moore-Penrose广义逆}
+
+有了奇异值分解，我们就可以定义一个非方阵的广义逆，对于一些问题的解决有着特别神奇的作用。
+
+简单的写一个广义逆的定义：
+
+\begin{definition}[Moore-Penrose广义逆]
+	设$A$为$m \times n$实矩阵，则存在唯一的$n \times m$的矩阵$A ^\dagger$满足如下条件：
+	\begin{enumerate}
+		\item $A A^\dagger A = A.$
+		\item $A^\dagger A A^\dagger = A^\dagger.$
+		\item $AA^\dagger$和$A^\dagger A$都是实对称矩阵.
+	\end{enumerate}
+\end{definition}
+
+这是白皮书p500页的定义，我们还有其特别有用的性质：
+\begin{enumerate}
+	\item $(AA^\dagger)^\prime = A A^\dagger.$
+	\item $(A^\dagger A)^\prime = A^\dagger A.$
+\end{enumerate}
+
+让我们来回忆北师大的一道真题. 上面有过。
+
+\begin{ex}[北师大 2020]
+	若$A$是$m \times n$实矩阵，$b$是$m$维列向量，证明： $A^\prime AX = A^\prime b$方程有解.
+\end{ex}
+
+\begin{proof}
+	我们当时用了非常常用的性质，考虑增广矩阵与系数矩阵的秩相等必有解，再用结论$r(A^\prime) = r(A^\prime A)$即可得.
+
+	这里我们可以看出解$X=A^\dagger b$.
+
+	然后验证即可：
+	\begin{align*}
+		\ts{A} A X &= \ts{A} A A^\dagger b \\
+		&= \ts{A} (A A^\dagger)^\prime b \\
+		&= \ts{A} (A^{\dagger})^{\prime} \ts{A} b\\
+		&= (A A^\dagger A)^{\prime} b \\
+		&= A^\prime b 
+	\end{align*}
+	\qed{}
+\end{proof}
+
+\section*{Kronecker积与向量化}
+
+Kronecker积是一个比较高级的技巧，虽然还会有其他的解法，但用Kronecker积则会比较简便和优美，ZJU也没什么考试
+大纲，有什么就学什么吧.>.<. 
+
+Kronecker积是一个重要的概念，几何意义是两个线性映射张量积的表示矩阵，因此$\otimes$也读作Tensor.
+没错，就是我们深度学习中的那个张量.
+
+\begin{definition}[Kronecker Product]
+	设$A=(a_{ij})$为$m \times n$矩阵，$B=(b_{ij})$为$k\times l$矩阵，定义他们的Kronecker积为一个$mk \times nl$矩阵：
+	$$
+	A \otimes B =  
+	\begin{pmatrix}
+		a_{11}B & a_{12}B & \cdots & a_{1n}B \\
+		a_{21}B & a_{22}B & \cdots & a_{2n}B \\
+		\ddots & \ddots & & \ddots \\
+		a_{n1}B & a_{n2}B & \cdots & a_{nn}B \\
+	\end{pmatrix}
+	$$ 
+\end{definition}
+
+\chapter{线性空间}
+
+\begin{introduction}
+	\item 有了一些增加或减少，
+	\item 或在上面添加一点或拿走一点，
+	\item 人们在第一眼还是会说大小没变。
+	\item -- $\mathbcal{Euler}$.
+\end{introduction}
+
+线性空间的题目大多都比较的抽象，尤其是构造的题目，一般我都做的比较差的，所以总结也颇少，暂时
+写不了的，都用矩阵来写，也不算取巧吧，理解不到位，还不能灵活运用，多做题思考吧。谢启鸿老师说过：
+几何的题目，你得自己想清楚它的每一步，不能想当然就这样。
+
+先介绍两个重点的内容：无限域上的线性空间，是不能被它的有限个真子空间给覆盖的。
+
+\begin{proposition}[有限子覆盖]
+	设数域$\mathbb{P}$上的有限维线性空间$V$不能被它的有限个真子空间覆盖，即不存在真子空间
+	$V_1, V_2, \dots, V_m$使得$V \subseteq V_1 \cup  V_2 \cdots \cup  V_m$.
+\end{proposition}
+
+\begin{proof}
+	证明不存在，用反证法方便，假设存在这样的真子空间$V_1, V_2, \dots, V_m$使得$V \subseteq V_1 \cup  V_2 \cdots \cup  V_m$，
+	则我们找矛盾，即$V$中有向量不在这些真子空间的并集里面即可.
+
+	设$V$中的一组基为$\{ e_1, e_2, \dots, e_n \}$，则
+	\begin{align*}
+		\alpha_k = e_1 + k e_2 + \dots + k^{n-1} e_n
+	\end{align*}
+	然后得到一组无穷的向量集$\{ \alpha_k \}_{k=1}^\infty$，从中任取$n$个向量，则根据
+	Vandermonde行列式可知，这些向量线性无关，是$V$中的一组基，而$V_1,\dots,V_m$只能包含
+	有限个向量，从而无穷多个$\alpha_k$不能被覆盖，与假设矛盾. 
+	\qed{}
+\end{proof}

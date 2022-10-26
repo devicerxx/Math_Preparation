@@ -1,0 +1,72 @@
+
+\chapter{每日一题CMC}
+
+\begin{introduction}
+	\item \emph{The summer has ended, and we are not saved.}
+	\item \emph{夏天已过，我们还未得救.}
+	\item \quad \quad \quad \quad --\emph{《橘子不是唯一的水果》}
+\end{introduction}
+
+总所周知，一个数学系的学生，不会做题，那岂不是丢大脸了，写不出来是一回事，没有思路是另一回事，
+鉴于没有参加过CMC，又是大四阶段的数学学院学生，就得多写...ZJU除了出原创题，还特别喜欢CMC的题目.
+
+\section*{Day 1}
+
+\begin{ex}[CMC 1]
+	设$V$是复数域$\mathbb{C}$上$n$为线性空间$(n > 0)$, $f,g$是$V$上的线性变化，如果$fg - gf = f$.
+	证明：$f$的特征值都是0，且$f,g$有公共的特征向量.
+\end{ex}
+
+\begin{proof}
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 1}: 代数-几何混杂}
+
+	随意选取一组基，则$f,g$在这组基下的表示矩阵为$A,B$，则条件可转化为$AB-BA=A$.
+
+	要证明所有的特征值都是0，我们首先想到设出所有的特征值$\lambda_1,\lambda_2,\dots\lambda_n$. 那么
+	特征值的和也是$0$，因此考虑用迹的性质.
+	\begin{align*}
+		tr(AB-BA) &= tr(AB) - tr(AB) = tr(A) = 0. \\
+		tr(A^kB-A^{k-1}BA) &= tr(A^kB) - tr(A A^{k-1} B) = tr(A^k) = 0.
+	\end{align*}
+	这里我们用到了迹的性质：$tr(AB) = tr(BA)$，可是在三个及三个以上的时候我们得注意交换的次序
+	$tr(ABC) = tr(CAB) = tr(BCA)$，注意到这里是错排，也就是都不能在自己原来的位置上.
+
+	于是我们有了$tr(A)=tr(A^k)=\sum_{i=1}^n \lambda_i = \sum_{i=1}^n \lambda_i^k=0$.
+
+	考虑Newton公式，
+	\begin{align*}
+		k \leq n-1&,\\
+		& s_k - s_{k-1} \sigma_1 + \dots + (-1)^k k\sigma_k = 0. \\
+		k \geq n \quad\,\,\,\, &,\\
+		& s_k - s_{k-1} \sigma_1 + \dots + (-1)^n s_{k-n} \sigma_n = 0.
+	\end{align*}
+	于是：$\sigma_1=\sigma_2=\dots=\sigma_n=0$.
+	
+	将$\lambda_1,\lambda_2,\dots,\lambda_n$看作某个$n$次方程的根. 则
+	$$
+		f(\lambda) = \lambda^n - \sigma_1 \lambda^{n-1} + \cdots + (-1)^{n}\sigma_s = \lambda^s.
+	$$
+	则方程为$\lambda^n=0$，当且仅当$\lambda_i=0$，即所有$A$的特征值为$0$.
+
+	$\forall \alpha \in Ker \, f$，则$fg(\alpha) - gf(\alpha) = f (\alpha)$，得出$f\bigl( g(\alpha) \bigr) = 0$，
+	即$g(\alpha) \in Ker \, f$，所以$Ker \, f$为$g-$不变子空间，则可以做限制，$g \lm{Ker\,f}$一定有特征向量，因为
+	是在复数域上，从而$f,g$有公共的特征向量. 
+
+	其实这题可以用完全的几何方法，比代数简单一些，至少不用背Newton公式了是不是。
+
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 2}: 几何}
+
+	任取$\lambda_0$为$f$的任一一个特征值，$V_0$为对应的特征子空间。此时$\forall \alpha \in 
+	V_0$，我们都有：
+	\begin{align*}
+		fg (\alpha) - gf (\alpha) &= f(\alpha) \\
+		f \bigl( g(\alpha) \bigr) - \lambda_0 g(\alpha) &= \lambda \alpha
+	\end{align*}
+	\qed{}
+\end{proof}
+
+\begin{itemize}
+	\item 如果没有天赋，你还会继续你最热爱的那件事吗？
+	\item 以前豆瓣给我印象很深的地方在于，豆瓣以外的地方，人们只会问你“有用吗”“电影院能看吗”，可是豆瓣
+		  的友邻会说“要继续下去啊”“期待你的新作”
+\end{itemize}

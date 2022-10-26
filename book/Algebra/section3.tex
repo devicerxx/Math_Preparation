@@ -1,0 +1,665 @@
+\chapter{对角化}\label{section3}
+
+\begin{introduction}
+	\item Schur引理
+	\item Cayley-Hamilton定理
+	\item Jordan-Chevalley定理
+	\item Vose分解
+	\item 相似标准型
+	\item 极小多项式
+	\item Jordan标准型
+\end{introduction}
+
+我们在线性映射里学习到，表示阵不依赖基向量的选取，因为他们都是相似的关系，那么如何找到一组特别的基向量
+，让表示阵在这组基下形式特别简单。所以矩阵相似在高等代数的考试中占比特别大，是很重要的内容，仔细参考
+白皮书和高等代数典型问题与方法两本书，梳理了特别重要的定理和典型例题来更好的理解这块内容.
+
+\section{基本定理梳理}
+
+\begin{theorem}[Schur引理]
+	任意方阵必复相似于一个上三角阵.
+\end{theorem}
+
+\begin{proof}
+	对矩阵的阶数$n$进行归纳，当$n=1$时，显然成立.
+
+	假设小于$n$时成立，下面证明等于$n$时也成立.
+
+	设$\lambda$是$A$的一个特征值，则存在非零向量$\alpha_1$，使得
+	$$
+		A \alpha_1 = \lambda \alpha_1
+	$$
+	将$\alpha_1$扩充为$\mathbb{C}_n$上的一组基，按照列分块为$P=(\alpha_1, \alpha_2, \dots, \alpha_n)$，
+	因此$P$是非异阵，且
+	\begin{align*}
+		AP &= (A\alpha_1, A\alpha_2, \dots, A\alpha_n) \\
+			& = (\alpha_1, \alpha_2, \dots, \alpha_n) \begin{pmatrix}
+				\lambda & \ast  \\
+				O & A_1
+			\end{pmatrix}
+	\end{align*}
+	其中$A_1$是一个$n-1$阶方阵，注意到$P$非异，则
+	$$
+		P^{-1} A P = \begin{pmatrix}
+			\lambda & \ast  \\
+			O & A_1
+		\end{pmatrix}
+	$$
+	由归纳假设可知，存在一个非异阵$Q$，使得
+	$
+		Q^{-1}A_1 Q
+	$为上三角阵.
+	
+	令$R=\begin{pmatrix}
+		1 & O \\
+		O & Q
+	\end{pmatrix}$，且$Q$可逆，分块对角阵的逆就是各分块的逆. 我们可以得
+	\begin{align*}
+		R^{-1}P^{-1} A P Q &= \begin{pmatrix}
+			1 & O \\
+			O & Q^{-1}
+		\end{pmatrix} 
+		\begin{pmatrix}
+			\lambda & \ast  \\
+			O & A_1
+		\end{pmatrix}
+		\begin{pmatrix}
+			1 & O \\
+			O & Q
+		\end{pmatrix} \\
+		&= \begin{pmatrix}
+			\lambda & \ast \\
+			O & Q^{-1}A_1 Q
+		\end{pmatrix}
+	\end{align*}
+	这是一个上三角阵. \qed
+\end{proof}
+
+\section{Cayley-Hamilton定理}
+
+Cayley-Hamilton定理是高等代数中特别重要的内容，我们介绍它的基本应用以及可以巧妙的解决很多问题.
+
+\begin{theorem}[Cayley-Hamilton定理]
+	设$A$是数域$\mathbb{K}$上的$n$阶方阵，$f(x)$是$A$的特征多项式，则$f(A)=O$.
+\end{theorem}
+
+\begin{proof}
+	由Schur引理可知，矩阵$A$必定复相似一个上三角阵，即存在可逆阵$P$，使得$P^{-1} A P=B$，$B$
+	为上三角阵，特征多项式是相似关系下的不变量，因此$A$和$B$具有相同的特征多项式. 则$f(B)=O$.
+	\begin{align*}
+		f(A) &= f(P B P^{-1} ) \\
+		&= P f(B) P^{-1}
+		\\
+		&= O.
+	\end{align*}  \qed{}
+\end{proof}
+
+
+在介绍应用之前，我们先介绍一个引理. 虽然不放在专门的一个章节，但也是很重要的内容，对于$AB=BA$这一类矩阵
+，拿到这样的条件我们称为可交换性。但如果不是这样的条件，而是$AX=XB$，出来的却是$B$，可以把这样的
+性质称为亚交换性，就和正定性和亚正定性一样。
+
+\begin{proposition}
+	设$A,B,C$分别是$m\times m, n\times n, m \times n$的矩阵，已知$AC=CB$，$C$的秩等于$r$.
+	求证：$A$和$B$至少有$r$个相同的特征值.
+\end{proposition}
+
+\begin{proof}
+	从特殊到一般.
+
+	\emph{Step 1}：假设$C$为$C=\begin{pmatrix}
+		I_r & O \\
+		O & O
+	\end{pmatrix}, A=\begin{pmatrix}
+		A_{11} & A_{12} \\
+		A_{21} & A_{22}
+	\end{pmatrix}, B=\begin{pmatrix}
+		B_{11} & B_{12} \\
+		B_{21} & B_{22}
+	\end{pmatrix}$,
+	则
+	\begin{align*}
+	AC = \begin{pmatrix}
+		A_{11} & O \\
+		A_{21} & O
+	\end{pmatrix}, \quad CB = \begin{pmatrix}
+		B_{11} & B_{21} \\
+		O & O
+	\end{pmatrix}
+	\end{align*}
+	因为$AC=CB$，于是$A_{11} = B_{11}$，两个$r$阶矩阵一模一样，所以至少有$r$个相同的特征值.
+
+	\emph{Step 2}：假设$C$为一般的矩阵，则一定存在可逆阵$P,Q$，使得$PCQ = \begin{pmatrix}
+		I_r & O \\
+		O & O
+	\end{pmatrix}$.
+	则
+	\begin{align*}
+		AC = A P^{-1} \begin{pmatrix}
+			I_r & O \\
+			O & O
+		\end{pmatrix} Q^{-1}, \quad 
+		CB = P^{-1} \begin{pmatrix}
+			I_r & O \\
+			O & O
+		\end{pmatrix} Q^{-1} B
+	\end{align*}
+	\begin{align*}
+		\bigl( P A P^{-1} \bigr) \begin{pmatrix}
+			I_r & O \\
+			O & O
+		\end{pmatrix} = \begin{pmatrix}
+			I_r & O \\
+			O & O
+		\end{pmatrix} \bigl( Q^{-1} B Q \bigr)
+	\end{align*}
+	令$A^\ast = P A P^{-1}, B^\ast = Q^{-1} B Q$，则是我们上面证明过的结论。因此，$A^\ast$和$B^\ast$
+	至少有$r$个相同的特征值，因此$A$和$B$有至少$r$个不同的特征值. \qed{}
+\end{proof}
+
+\begin{proposition}
+	设$A$为$m$阶方阵，$B$为$n$阶方阵，求证：若$A,B$无公共特征值，则矩阵方程$AX=XB$只有零解.
+\end{proposition}
+
+\begin{proof}
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 1}: Cayley-Hamilton}
+
+	设$A$的特征多项式为$f(\lambda) = | \lambda I - A | $，则
+	$$
+		O = f(A)X = Xf(B)
+	$$
+	我们需要证明$f(B)$可逆即可左右两边同时消去.
+
+	设$B$的所有特征值为$\mu_1, \mu_2, \dots, \mu_s$，则$f(B)$的所有特征值为$f(\mu_1),f(\mu_2),\dots,f(\mu_s)$,
+	且$A,B$无公共的特征值，则$f(\mu_1) \neq 0, f(\mu_2) \neq 0, \dots, f(\mu_s) \neq 0$，则$f(B)\neq 0$，$f(B)$是可逆的，因此$X=0$. 
+	
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 2}:}
+	用到我们上面的命题.
+
+	假设$C$为矩阵方程$AX=XB$其中一个解，若$C \neq 0$，则$r(C) \geq 1$，由命题可知，$A$和$B$
+	至少有$r$个相同的特征值，与题目中没有公共的特征值矛盾，因此$C=0$，即这个矩阵方程只有零解.
+	\qed{}
+\end{proof}
+
+下面是这个重要结论的应用，如果不知道的话，那做起来会很麻烦.
+
+\begin{ex}{CMC}
+	设$A$为$n$阶方阵，其$n$个特征值皆为偶数，试证明关于$X$的矩阵方程：$X+AX-XA^2=0$只有零解.
+\end{ex}
+
+\begin{proof}
+	化简$(A+I)X=XA^2$，则若$A+I$和$A^2$无公共特征值即可.
+
+	$A$的特征值皆为偶数，因此$A+I$的特征值都是奇数，$A^2$的特征值都是偶数(上三角化即可)，因此无公共的
+	特征值，则这个矩阵方程只有零解. \qed{}
+\end{proof}
+
+\begin{proposition}
+	设$A$为$m$阶方阵，$B$为$n$阶方阵，证明：矩阵方程$AX-XB=C$有唯一解.
+\end{proposition}
+
+\begin{proof}
+	构造一个同构映射：
+	\begin{align*}
+		\varphi: \,\, M_{m \times n}(\mathbb{K}) &\to M_{m \times n}(\mathbb{K}) \\
+			X \quad \quad  &\mapsto AX-XB
+	\end{align*}
+	$AX-XB=O \Longleftrightarrow X=O$，即$Ker \, \varphi =O$，是单射，且映射是线性同构，因此
+	该线性映射是满射，所以存在唯一解$C$. 
+	\qed{}
+
+\end{proof}
+
+\section{可交换性}
+
+两个矩阵有公共的特征向量与矩阵乘法的可交换性有着密切的联系，这个问题和同时上三角化(对角化)有着类似的
+思想. 不变子空间是解决这类问题的常用方法，我们通过题目来熟悉并掌握它.
+
+
+$AB$可交换的一些简单的结论:
+\begin{enumerate}
+	\item $AB$可交换$\implies $ 至少有一个公共的特征向量.
+	\item $AB$可交换$\implies $ 至少有一个公共的特征向量 $\implies $  $A,B$可同时化为上三角.
+	\item $AB$可交换，且$A,B$都可对角化$\implies A,B$可同时对角化.
+\end{enumerate}
+
+我们先证明重要的引理.
+
+\begin{lemma}[限制的可对角化]
+	设$\varphi \in \mathscr{L}(V_{\mathbb{C}}^n)$，且$V_0$是$\varphi$-不变子空间，若$\varphi$
+	可对角化，则$\varphi \lm{V_0}$也可对角化.
+\end{lemma}
+
+\begin{proof}
+	设$\varphi$的极小多项式为$m(\lambda)$，$\varphi \lm{V_0}$的极小多项式为$g(\lambda)$.
+	$$
+		m(\varphi \lm{V_0})=m(\varphi)\lm{V_0}=0
+	$$
+	则$g(\lambda) | m(\lambda)$，且$\varphi$可对角化$\implies $$m(\lambda)$无重根.
+
+	因此$g(\lambda)$无重根$\implies $$\varphi \lm{V_0}$也可对角化. \qed
+\end{proof}
+
+\begin{remark}
+	我们可以容易理解到，只要$\varphi$可对角化，则限制在任意一个它的不变子空间上也可以对角化.
+\end{remark}
+
+\begin{lemma}[可交换的不变子空间]
+	设$\varphi, \psi \in \mathscr{L}(V_{\mathbb{C}}^n)$，且$\varphi, \psi$可交换，即$\varphi \psi = \psi \varphi$.
+	设$\varphi$的不同特征值为$\lambda_1,\lambda_2,\dots,\lambda_s$，$V_i$是特征值为$\lambda_i$的
+	特征子空间，证明：$V_i$是$\psi$-不变子空间.
+\end{lemma}
+
+\begin{proof}
+	对于任意的$x \in V_i$，我们有
+	$$
+		\varphi \bigl(\psi (x) \bigr)= \psi \varphi (x) = \psi (\lambda_i x) = \lambda_i \cdot \psi(x)
+	$$
+	则$\psi(x) \in V_i$，因此$V_i$是$\psi$-不变子空间. \qed{}
+\end{proof}
+
+\begin{remark}
+	这个引理则告诉我们，对于可交换的线性变换，则任意一个的特征子空间一定是这两个线性变换的不变子空间.
+\end{remark}
+
+\begin{proposition}[公共特征向量]
+	设$\phi, \varphi$是复线性空间$V$上的可交换的线性变换，即$\varphi \psi= \psi \varphi $，求证：
+
+	$\varphi, \psi$至少有一个公共的特征向量.
+\end{proposition}
+
+\begin{proof}
+	由代数学基本定理可知，维数大于零的复线性空间至少有一个特征值和特征向量，任取$\varphi$一个特征值$\lambda_0$和它
+	对应的特征向量$\alpha_0$，设$V_0$是属于特征值$\lambda_0$的特征子空间，且是$\varphi$-不变子空间
+
+	$\forall x \in V_0$，有
+	$$
+		\varphi \bigl(\psi (x) \bigr)= \psi \varphi (x) = \psi (\lambda_i x) = \lambda_i \cdot \psi(x)
+	$$
+	则$\psi(x) \in V_0$，所以$V_0$也是$\psi$-不变子空间，将$\psi$限制在$V_0$上，
+	$V_0$是维数大于零的复线性空间，故$\psi \lm{V_0}$至少有一个特征值$\mu_0$和对应的特征向量$\alpha_0$，
+	因此$\alpha_0$是$\varphi, \psi$共有的特征向量. \qed
+\end{proof}
+
+\begin{proposition}[同时上三角化]
+	若$A,B$都是数域$\mathbb{K} $上的$n$阶方阵，且$AB=BA$，假定$A,B$的特征值都在数域$\mathbb{K}$中，
+	求证：存在$\mathbb{K} ^n$上的可逆阵$P$，使得$P^{-1} A P,P^{-1} B P$都是上三角阵. 
+\end{proposition}
+
+\begin{proof}
+	对矩阵的阶数$n$进行归纳，当$n=1$时，显然成立
+
+	假设小于$n$时成立，下面证明等于$n$时也成立.
+
+	由上面的命题可知，当矩阵$AB$可交换，则至少存在一组公共的特征向量，设一组公共的特征向量为$e$，对应的特征值
+	为$\lambda_1,\mu_1$，于是有
+	$$
+		Ae = \lambda_1 e, \quad Be = \mu_1 e.
+	$$
+	将这个特征向量扩充为$\mathbb{K}^n$中的一组向量$\{ e_1, e_2,\dots, e_n \}$，把他们拼成
+	形式行向量的形式，记作$P=(e_1, e_2, \dots, e_n)$，满足
+	$$
+		A P = (e_1, e_2, \dots, e_n) \begin{pmatrix}
+			\lambda_1 & \ast \\
+			& A_1
+		\end{pmatrix}, \quad BP = (e_1, e_2, \dots, e_n) \begin{pmatrix}
+			\mu_1 & \ast \\
+			& B_1
+		\end{pmatrix}
+	$$
+	注意到$P$为非异阵，则$P^{-1} A P =\begin{pmatrix}
+		\lambda_1 & \ast \\
+			& A_1
+		\end{pmatrix}, P^{-1} B P = \begin{pmatrix}
+			\mu_1 & \ast \\
+			& B_1
+		\end{pmatrix}$.
+	
+	因为$AB=BA$，我们需要$A_1B_1 = B_1 A_1$，通过简单验证可知，成立：
+	\begin{align*}
+		AB &= P^{-1} \cdot \begin{pmatrix}
+			\lambda_1 & \ast \\
+			& A_1
+		\end{pmatrix} \bigl( P \cdot P^{-1} \bigr) \cdot
+		\begin{pmatrix}
+			\mu_1 & \ast \\
+			& B_1
+		\end{pmatrix} \cdot P = P^{-1} \cdot \begin{pmatrix}
+			\lambda_1 & \ast \\
+			& A_1
+		\end{pmatrix}
+		\cdot 
+		\begin{pmatrix}
+			\mu_1 & \ast \\
+			& B_1
+		\end{pmatrix} \cdot P \\
+		BA &= P^{-1} \cdot \begin{pmatrix}
+			\mu_1 & \ast \\
+			& B_1
+		\end{pmatrix} \bigl( P \cdot P^{-1} \bigr) \cdot
+		\begin{pmatrix}
+			\lambda_1 & \ast \\
+			& A_1
+		\end{pmatrix} \cdot P = P^{-1} \cdot
+		\begin{pmatrix}
+			\mu_1 & \ast \\
+			& B_1
+		\end{pmatrix}
+		\cdot 
+		\begin{pmatrix}
+			\lambda_1 & \ast \\
+			& A_1
+		\end{pmatrix}
+		\cdot P
+		\\
+		AB &= BA \implies 
+		\begin{pmatrix}
+			\lambda_1 \mu_1 & \ast \\
+			& A_1B_1
+		\end{pmatrix}
+		=
+		\begin{pmatrix}
+			 \mu_1 \lambda_1 & \ast \\
+			& B_1A_1
+		\end{pmatrix}  
+	\end{align*}
+	则$A_1 B_1=B_1 A_1$，由归纳假设可知$A_1, B_1$可同时上三角化，即存在可逆阵$Q$. 令$R=P \begin{pmatrix}
+		1 & O \\
+		O & Q
+	\end{pmatrix}$.
+	\begin{align*}
+		R^{-1}AR &= \begin{pmatrix}
+			\lambda_1 & \ast \\
+			& Q^{-1}A_1Q
+		\end{pmatrix} \\
+		R^{-1}BR &= \begin{pmatrix}
+			\mu_1 & \ast \\
+			& Q^{-1}B_1Q
+		\end{pmatrix}
+	\end{align*}
+	\qed{}
+\end{proof}
+
+\begin{proposition}[同时对角化]
+	设$A,B$是$n$阶矩阵，若$A$有$n$个不同的特征值，且$AB=BA$，求证：$B$相似于对角矩阵.
+\end{proposition}
+
+\begin{proof}
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 1}: 代数}
+
+	$A$有$n$个不同的特征值，存在可逆阵$P$，使得$P^{-1}AP=diag\{ \lambda_1, \lambda_2,\dots
+	,\lambda_n \}$，其中$\lambda_1, \lambda_2,\dots,\lambda_n$是$A$的特征值，根据$AB=BA$可得：
+	\begin{align*}
+		P \cdot diag\{ \lambda_1, \lambda_2,\dots,\lambda_n \} \cdot P^{-1} B &= 
+		B \cdot P \cdot diag\{ \lambda_1, \lambda_2,\dots,\lambda_n \} \cdot P^{-1} \\
+		diag\{ \lambda_1, \lambda_2,\dots,\lambda_n \} P^{-1} \cdot B P &= 
+		P^{-1} B  P \cdot diag\{ \lambda_1, \lambda_2,\dots,\lambda_n \}
+	\end{align*}
+	则我们得到$P^{-1} B P$与$diag\{ \lambda_1, \lambda_2,\dots,\lambda_n \}$可交换，于是不妨设$A$是
+	$diag\{ \lambda_1, \lambda_2,\dots,\lambda_n \}$，
+	\begin{align*}
+		diag\{ \lambda_1, \lambda_2,\dots,\lambda_n \} \cdot B = B \cdot diag\{ \lambda_1, \lambda_2,\dots,\lambda_n \}
+	\end{align*}
+	对比元素可知，$B$一定是一个对角阵，于是，可知，$P^{-1} B P$为对角阵，即相同的$P$使得他们
+	同时对角化. 
+	\qed{}
+\end{proof}
+
+\section{对角化1：极小多项式无重根的应用}
+
+\begin{proposition}[极小多项式是相似关系的不变量]
+	$A,B$都是$n$阶方阵，且$A$相似于$B$，则他们有相似的极小多项式.
+\end{proposition}
+
+\begin{proof}
+	设$A$的极小多项式为$m_A(\lambda)$，$B$的极小多项式为$m_B(\lambda)$. 且$A$与$B$相似，
+	则存在可逆阵$P$，使得$A=P^{-1} B P$
+	\begin{align*}
+		m_A(A) &= m_A(P^{-1} B P) = P^{-1} \, m_A (B) \, P = 0 
+		\\
+		&\implies m_B | m_A \\
+		m_B(B) &= m_B(P A P^{-1}) = P \,m_B(A)\, P^{-1} = 0 
+		\\
+		&\implies m_A | m_B
+	\end{align*}
+	因此$m_A=m_B$.
+	\qed{}
+\end{proof}
+
+\begin{proposition}
+	设$A$适合$A^2=I_n$，则$A$必可对角化.
+\end{proposition}
+
+我们给出两种证法，第二种为极小多项式证法，之所以写第二条，来对比体现出其简洁性。
+
+\begin{proof}
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 1}:}
+
+	由已知我们可以得到$A$适合多项式$f(x)=x^2-1=(x-1)(x+1)$，则$A$的任意特征值$\lambda$也适合
+	该多项式，解得$\lambda=1,\lambda=-1$(不计重数). 则$\lambda=1$时，特征子空间为$V_1=Ker(A-I_V)$，
+	当$\lambda=-1$时，特征子空间为$V_2=Ker (A + I_V)$.
+
+	下面证明一个引理：设$f_1(x),f_2(x)$为数域$\mathbb{R}$上的互素多项式，$\varphi$为$n$维线性空间
+	$V$上的线性变换，且满足$f_1(\varphi) f_2(\varphi)=0$，则$V = V_1 \oplus V_2$，$V_1 = Ker f_1(\phi)，
+	V_2 = Ker f_(\varphi)$.
+
+	$f_1(x), f_2(x)$互素$\implies $ $\exists u(x),v(x) \in R[x]$, \emph{s.t.},
+	$$
+	    f_1(x) \cdot u(x) + f_2(x) \cdot v(x) = 1, \text{令$x=\varphi$可得}
+	$$
+	$$
+	f_1(\varphi) \cdot u(\varphi) + f_2(\varphi) \cdot v(\varphi) = I_V  \quad (\ast )
+	$$
+	$\forall \alpha \in V$，左右同时作用$\alpha$,
+	$$
+	f_1(\varphi) \cdot u(\varphi)(\alpha) + f_2(\varphi) \cdot v(\varphi)(\alpha) = \alpha,
+	$$
+	注意到$f_1(\varphi) u(\varphi) \in Ker \, f_2(\varphi)$，$f_2(\varphi) v(\varphi) \in
+	Ker \, f_1(\varphi)$，且$\alpha$是任意的，则
+	$$
+		V = V_1 + V_2
+	$$
+	任取$\beta \in Ker \, f_1(\varphi) \bigcap f_2(\varphi)$，两边同时作用$\beta$在$\ast $中.
+	$$
+		u(\varphi) \cdot f_1(\varphi) (\beta) + v(\varphi) f_2(\varphi) (\beta) = \beta
+	$$
+	$$
+		0 + 0 = \beta,
+	$$
+	因为$\beta$是任取的，所以$Ker \, f_1(\varphi) \bigcap Ker \, f_2(\varphi)=0$，
+	则$V=V_1 \oplus  V_2$.
+
+	我们注意到，$f(x)=x^2-1=h(x) \cdot g(x), h(x)=x-1, g(x)=x+1$，且$\bigl( h(x), g(x) \bigr)=1$
+	，我们把矩阵$A$视作线性变换，即可得$g(A)h(A)=0$，就是我们证明的引理。 因此全空间可以分解为：
+	$$
+		V = V_1 \oplus V_2
+	$$
+	即所有的特征子空间的直和为全空间$\implies $ $A$可对角化.
+
+
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 2}:}
+
+	由已知我们可以得到$A$适合多项式$f(x)=x^2-1=(x-1)(x+1)$，则$A$的任意特征值$\lambda$也适合
+	该多项式，即$f(\lambda)=\lambda^2-1=0$，设$A$的极小多项式为$m(\lambda)$，由极小多项式的
+	性质可得：$m(\lambda) | f(\lambda)$，且$f(\lambda)$无重根，则$m(\lambda)$无重根，则根据
+	极小多项式无重根可知$A$必可对角化.
+	\qed
+\end{proof}
+
+\begin{ex}[ZJU 2007]
+	设$n$阶方阵$A$满足$A^2-5A+6E=0$，其中$E$是单位矩阵，证明：
+
+	\vspace{0.2cm}
+	$A$相似于对角矩阵. 如果$A$的行列式
+	等于$2^m3^{n-m} (0<m<n),m\text{是正整数}$. 求与$A$相似的一个对角阵.
+\end{ex}
+
+\begin{proof}
+	由上面一题的经验，我们可以直接秒杀这道题，矩阵$A$适合多项式$f(x)=x^2-5x+6$，则特征值也适合
+	这个多项式，$f(\lambda)=(\lambda-2)(\lambda - 3)$.
+
+	设矩阵$A$的极小多项式为$m(x)$，则$m(\lambda) | f(\lambda)$，易得多项式$f(\lambda)$
+	无重根，则$A$的极小多项式$m(x)$也没有重根，可以推出$A$可对角化.
+
+	由前面的引理可知，行列式是相似关系下的不变量，存在可逆矩阵$P$使得：
+	$$
+		P^{-1} A P = B
+	$$
+	$B$是对角阵，则$|A|=|B|$，因此其中一个相似的对角阵为:
+	$
+	\begin{pmatrix}
+		2 & & \\
+		& \ddots & \\
+		& & 3
+	\end{pmatrix}
+	$，其中$m$个$2$，$n-m$个$3$.
+	\qed
+\end{proof}
+
+\begin{proposition}
+	设$A$为$m$阶矩阵，$B$为$n$阶矩阵，$C$为$m \times n$矩阵，$M=\begin{pmatrix}
+		A & C \\
+		O & B
+	\end{pmatrix}$，求证：若$M$可对角化，则$A,B$均可对角化.
+\end{proposition}
+
+两种证法，白皮书上p295用完全特征向量系较为繁琐，这里用极小多项式更简洁。
+
+\begin{proof}
+	设$M$的极小多项式为$m(\lambda)$，则
+	$$
+		0 = m(M) = \begin{pmatrix}
+			m(A) & \ast \\
+			O & m(B)
+		\end{pmatrix} 
+	$$
+	从而$m(A)=0,m(B)=0$，则利用极小多项式的性质：极小多项式整除任何矩阵适合的多项式.
+	$$
+		m_A(\lambda) | m(\lambda)  \quad m_B(\lambda) | m(\lambda)
+	$$
+	再由对角化的充要条件，$M$可对角化，则$M$的极小多项式$m(\lambda)$无重根，$m_A(\lambda),m_B(\lambda)$也
+	无重根$\implies A,B$均可对角化. \qed
+\end{proof}
+
+\chapter{二次型与内积空间}
+
+\begin{introduction}
+	\item 正定型与正定阵
+	\item 实对称矩阵的正交相似标准型
+	\item 同时合同三角化
+	\item 实正规阵的正交相似标准型
+\end{introduction}
+
+\section{基本定理梳理}
+
+\section{同时合同对角化}
+
+我们在可交换性那边，介绍过可同时上三角化，对角化，可他们的要求都是需要交换性，在实对称这边，我们
+还有类似可交换性那边一样的结论，相当重要，需要像定理一样铭记在心.
+
+\begin{lemma}[同时合同对角化]
+	设$A$是$n$阶正定实对称阵，$B$是同阶实对称阵，求证：必存在可逆阵$C$使得
+	$$
+		C^{\prime} A C = I_n,\quad C^{\prime} B C = diag\{ \lambda_1, \lambda_2, \dots, \lambda_n \}
+	$$
+	其中，$\{ \lambda_1, \lambda_2, \dots, \lambda_n \}$是矩阵$A^{-1}B$的特征值.
+\end{lemma}
+
+\begin{proof}
+	$A$是正定实对称，则存在可逆阵$P$，使得$P^{\prime} A P=I_n$，根据前面的引理可以知道$P^{\prime} B P$也为
+	实对称阵，则存在正交阵$Q$，使得$Q^{\prime} P B P Q=diag\{\lambda_1, \lambda_2,\dots, \lambda_n\}$.
+
+	令$C=PQ$，那么
+	$$
+		C^\prime (\lambda A - B) C  = \lambda I_n - C^\prime B C = diag\{ \lambda - \lambda_1, \lambda - \lambda_2,\dots, \lambda - \lambda_n \}  
+	$$
+	因此$\lambda_i$是$|\lambda A - B |$的根，$A$可逆，则$\lambda_i$也是$|\lambda I_n - A^{-1}B|$的根.
+	\qed{}
+\end{proof}
+
+\begin{proposition}
+	设$A$是$n$阶实对称矩阵，$B$是同阶半正定阵，求证：
+	$$
+		| A + B | \geq | A | + | B |
+	$$
+	等号成立的充要条件为$B=O$.
+\end{proposition}
+
+\begin{proof}
+	由上面的引理可知，存在可逆阵$P$，使得$P^{\prime} A P=I_n, P^{\prime} B P= \{ \lambda_1, \lambda_2,\dots, \lambda_n \}$,
+	其中$\lambda_1, \lambda_2, \dots, \lambda_n$为$A^{-1}B$的特征值. 由$B$是半正定阵可知，$\lambda_i \geq 0$.
+
+	\begin{align*}
+		|P^\prime | |(A+b)| |P| = |P^{\prime}(A + B)P| = | P^\prime A P + P^\prime B P | &= 
+		| I_n + diag\{ \lambda_1, \lambda_2, \dots, \lambda_n \} | \\
+		&= (1+\lambda_1)(1+\lambda_2)\cdots (1+\lambda_n) \\
+		&\geq 1 + \lambda_1 \lambda_2 \dots \lambda_n \\
+		&= |P^\prime|(| A | + | B |) |P| \\
+	\end{align*}
+	\qed{}
+\end{proof}
+
+\begin{ex}[电子科大 2021]
+	已知矩阵$A,B$均为$n$阶正定阵.
+	\begin{enumerate}
+		\item 证明：$A+2021B$也为正定阵.
+		\item 证明：$| A+2021B | > | A |$.
+	\end{enumerate}
+\end{ex}
+
+\begin{proof}
+	(1). $A,B$均为正定阵...很好证明，我们用正定阵的性质，对于任意的$\alpha \in \mathbb{R}^n \neq 0$，只要证明左乘
+	右乘恒大零即可.
+	$$
+		\alpha^\prime (A + 2021B) \alpha = \alpha^\prime A \alpha + 2021 \alpha^\prime B \alpha > 0.
+	$$
+
+	(2). 用刚才的引理，存在可逆阵$P$，使得$P^{\prime} A P=I_n, P^{\prime} B P= \{ \lambda_1, \lambda_2,\dots, \lambda_n \}$,
+	其中$\lambda_1, \lambda_2, \dots, \lambda_n$为$A^{-1}B$的特征值. 且$A^{-1}B$仍为正定阵，因此这些
+	特征值全部都大于0.
+	\begin{align*}
+		|P^\prime | | (A+2021B) | | P | = | P^\prime (A + 2021B) P | = | P^\prime A P + 2021 P ^\prime B P| &= | I_n + 2021 diag\{ \lambda_1, \lambda_2, \dots, \lambda_n \} | \\
+		&= (1+2021\lambda_1)(1+2021\lambda_2)\cdots (1+2021\lambda_n) \\
+		&> 1 \\
+		&= | P^\prime A P| \\
+		&= |A|
+	\end{align*}
+	\qed{}
+\end{proof}
+
+\section{同时合同标准化(正交标准型)}
+
+正规阵有着正交相似标准型，特别地，在反对称阵和正交阵使用的较多。我们介绍重要的同时合同标准化.
+
+\begin{itemize}
+	\item 正定实对称阵 + 实对称阵 $\implies$ 同时合同对角化.
+	\item 正定实对称阵 + 实反对称阵 $\implies$ 同时合同标准化(正交标准型).
+\end{itemize}
+
+\begin{lemma}[同时合同标准化]
+	设$A$为$n$阶正定实对称阵，$S$实同阶实反对称阵，则存在可逆阵$C$，使得
+	$$
+		C^\prime A C = I_n, \, C^\prime B C = diag\left\{ \begin{pmatrix}
+			0 & b_1 \\
+			-b_1 & 0
+		\end{pmatrix}, \dots, \begin{pmatrix}
+			0 & b_r \\
+			-b_r & 0
+		\end{pmatrix},0,\dots, 0\right\},
+	$$
+	其中$b_1,\dots,b_r$为非零实数.
+\end{lemma}
+
+\begin{proof}
+	$A$为正定阵，则存在可逆阵$P$，使得$P^\prime A P =I_n$，且$p^\prime B P$仍为实反对称阵，
+	于是存在正交阵$Q$，使得$Q^\prime (P^\prime A P) Q=diag\left\{ \begin{pmatrix}
+		0 & b_1 \\
+		-b_1 & 0
+	\end{pmatrix}, \dots, \begin{pmatrix}
+		0 & b_r \\
+		-b_r & 0
+	\end{pmatrix},0,\dots, 0\right\}$为正交相似标准型，$b_1,\dots,b_r$为非零实数，且$Q^\prime (P^\prime A P)Q=I_n$.
+	
+	令$C=PQ$即可. 
+	\qed{}
+\end{proof}

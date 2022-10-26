@@ -1,0 +1,98 @@
+% 使用 BHCexam 文档类，并传递选项
+\documentclass[windows]{BHCexam}
+\usepackage{hyperref}
+
+\begin{document}
+	
+	% 第一行主标题
+	\title{SJTU2022 高等代数}
+	
+	% 考试说明
+	\notice{注：满分150分, 180分钟完成.}
+	
+	% 生成试卷头
+	\maketitle
+	
+	\begin{groups}
+        \begin{questions}
+            \question 证明：多项式$f(x)$与$g(x)$互素的充要条件为存在多项式$u(x),v(x)$，使得
+            $$
+                u(x)f(x)+v(x)g(x) = 1
+            $$
+        \end{questions}
+
+        \begin{solution}{4cm}
+            \method 橘子数学社区的宗旨是开放、高效、合作、变革.
+        \end{solution}
+
+        \begin{questions}
+            \question 设矩阵$A= \begin{pmatrix}
+                0.25 & 2a & a \\ 
+                a & b & 0.75
+            \end{pmatrix}$.
+            \begin{subquestions}
+				\subquestion 是否存在$B$使得$BA=I$（单位阵），若存在，则求出$B$，若不存在，则说明理由.
+				\subquestion 设$e_1^\prime A A^\prime e_2=0$，求$(A^\prime A)^{2021}$，其中$e_1,e_2$分别为二维标准单位向量.
+                \subquestion 是否存在$a,b$使得$AA^\prime=I$，若存在，求出$a,b$，若不存在，则说明理由.
+			\end{subquestions}
+        \end{questions}
+		
+		\begin{questions}
+            \question 设集合$S=\{\alpha \in \mathbb{R}^2 \vert \alpha^\prime \alpha \leq 1\}$，记$AS=\{A\alpha \vert \alpha \in S\}$.
+            \begin{subquestions}
+                \subquestion 当$A=\begin{pmatrix}
+                    1 & 1 \\
+                    1 & 1
+                \end{pmatrix}$时，$AS$代表的形状是什么？
+                \subquestion 当$A=\begin{pmatrix}
+                    1 & 1 \\
+                    1 & -1
+                \end{pmatrix}$时，$AS$代表的形状是什么？
+                \subquestion 对于任意的二阶实矩阵$A$，讨论$AS$所代表的几何图形.
+            \end{subquestions}
+
+        \end{questions}
+        
+        \begin{questions}
+            \question 设$A$为$n$阶矩阵，证明：
+            \begin{subquestions}
+                \subquestion 若$A^{n+1}=0$，则$A^n=0$.
+                \subquestion rank($A^n$)=rank($A^{n+1}$).
+            \end{subquestions}
+        \end{questions}
+
+        \begin{questions}
+            \question 设$A=\begin{pmatrix}
+                1 & 0 & 1 \\
+                1 & 0 & 0 \\
+                0 & 0 & 1 
+            \end{pmatrix}$.
+            \begin{subquestions}
+                \subquestion 求$A$的Jordan标准型.
+                \subquestion 令$B=A^\prime A$，求$B$的谱分解.
+                \subquestion 令$C=\begin{pmatrix}
+                    B \\
+                    B
+                \end{pmatrix}$，求$C$的奇异值分解.
+            \end{subquestions}
+        \end{questions}
+
+        \begin{questions}
+            \question 设$U,W$分别为$n$维欧氏空间$V$的子空间，证明或举反例：
+            \begin{subquestions}
+                \subquestion $(U+W)^\bot = U^\bot  \cap  W^\bot $.
+                \subquestion $(U\cap W)^\bot = U^\bot  + W^\bot $.
+            \end{subquestions}
+        \end{questions}
+
+        \begin{questions}
+            \question 设$A$为$n$阶实对称矩阵，那么$A$至少有$k$个正特征值的充要条件是存在维数为$k$的$\mathbb{R}^n$的子空间$V$，使得对任意的非零向量
+            $x \in V$，有$v^\prime A v > 0$.
+        \end{questions}
+
+        \begin{questions}
+            \question 设$V,W$为数域$F$上的两个线性空间，$U$为$V$的子空间，$\pi$是$V$到$V/U$的商映射，证明：对于$\text{Hom}_F(V,W)$中的元素$\sigma$,
+            存在$\tau \in \text{Hom}_F(V/U,W)$使得$\sigma=\tau \circ \pi$的充要条件是$U \subset \text{ker} \sigma$.
+        \end{questions}
+	\end{groups}
+\end{document}

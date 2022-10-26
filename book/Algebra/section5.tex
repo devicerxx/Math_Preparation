@@ -1,0 +1,402 @@
+
+\chapter{每日真题总结}
+
+\begin{introduction}
+	\item 很长一段时间，我的生活看起马上就要开始了，真正的生活。
+	\item 但是总有一些障碍阻挡着，有些事情得先解决，有些工作还有待完成，事件貌似够用，还有一笔债务要去付清，然后生活就会开始。
+	\item 最后我终于明白，这些障碍，正是我的生活.
+\end{introduction}
+
+专题题目好像很多类似写过，但一下子汇总的时候就懵了，看到有些题目慌了手脚，明明写到过，仔细回想
+一下就能想出来，却思绪被堵着，做做真题很有必要，适当总结，哪些还有遗漏。
+
+\section*{Day1}
+
+\begin{ex}[苏大2022]
+	设$A,B$分别为$s \times k$和$k \times n$阶矩阵，$X$为$n$维列向量，记$V = \{ BX \,|\, ABX = 0 \}$. 证明：
+	$$
+		dim \, V = r(B) - r(AB)
+	$$
+\end{ex}
+
+\begin{proof}
+	当时看到这个思路很乱，某公众号上的解法过于繁琐，这里我们考虑代数学引论书上的一道习题：
+
+	$A,B$为线性空间$V$上的线性变换，求证：
+	$$
+		r(A) = r(BA) + dim \, (Im \, A \cap Ker \, B).
+	$$
+
+	\begin{align*}
+		V &\stackrel{A}{\longrightarrow } \,\,V\,, V \stackrel{B}{\longrightarrow} V\\
+		x \,&\longmapsto  Ax, \,x\, \longmapsto Bx \\
+	\end{align*}
+	线性变换是存在复合的，于是我们考虑这两个进行复合.
+	\begin{align*}
+		V &\stackrel{A}{\longrightarrow } \,\,V\, \stackrel{B}{\longrightarrow } V \\
+		x\, &\longmapsto  Ax \longmapsto BAx
+	\end{align*}
+	于是有关$B$的映射，我们可以做限制，$Im \, A \stackrel{B^\prime}{\longrightarrow } B$，$B^\prime = B\lm{Im \, A}$.
+
+	根据维数公式：
+	$$
+		dim \, Im \, A = dim \, Im \, B^\prime + Ker \, B^\prime 
+	$$
+	\begin{align*}
+		Im \, B^\prime &= Im \, BA \\
+		Ker \, B^\prime &= Ker \, B \cap Im \, A
+	\end{align*}
+	于是得证.
+
+	回到我们这题，把$A,B$看错线性映射，于是题目要证明的即$V = Ker \,A \cap Im \, B$.
+
+	根据上面的引理，将$A,B$换个位置即得：
+	$$
+		r(B) = r(AB) + dim \, V
+	$$
+	\qed{}
+\end{proof}
+
+\begin{remark}
+	当线性映射可以复合的时候，碰到$\cap $则需要考虑限制的映射，再用维数公式.
+\end{remark}
+
+\begin{ex}[苏大2022]
+	若对$n$阶方阵$A$，存在正整数$k$，使得$A^k=O$，则称$A$为幂零矩阵.
+	\begin{enumerate}
+		\item 证明：$A$是幂零矩阵的充要条件是$A$的特征值全为0.
+		\item 若$A$不可逆也不幂零，则存在可逆矩阵$P$，使得$P^{-1} A P = \begin{pmatrix}
+			B & O \\
+			O & C
+		\end{pmatrix}$，其中$B$为可逆矩阵，$C$为幂零矩阵.
+	\end{enumerate}
+\end{ex}
+
+\begin{proof}
+	第一题为常见结论，第二题是Jordan-Chevally分解的另一种变形。
+
+	(1). 先证明必要性：
+
+	设$A$的任一特征值为$\lambda$,
+	可以看出$A$适合多项式$f(x) = x^k$，则$f(A)=A^k=0$，$A$的任一特征值也得适合这个多项式，即
+	$f(\lambda)=\lambda^k=0$，解得$\lambda=0$，这里的$\lambda$是任意取的，因此$A$的所有特征值都是0.
+
+	充分性：
+
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 1}: Cayley-Hamilton}
+
+	设$A$的全体特征值都为0，则$A$的特征多项式为$f(\lambda)=\lambda^n$，根据
+	Cayley-Hamilton定理，$f(A)=A^n=0$.
+
+	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 2}: Jordan标准型}
+
+	存在可逆阵$P$，使得$P^{-1}AP=J$，$J$为$A$的Jordan标准型，其中主对角线全为0，上次
+	对角线为1，也就是$J_n(0)$，我们已知$J_n(0)^{n}=0$.
+
+	(2). 
+
+	$A$不可逆，则$A$一定有特征值$0$，存在可逆阵$P$，使得$P^{-1}AP=J$，$J$为$A$的Jordan标准型
+	我们把$J_{r_k}(0)$的全部对角阵去除，拼成一个新的对角阵$C$，它一定是幂零矩阵，则剩下的拼成新的对角阵$B$，
+	由于特征值都是不为0的对角阵，则一定可逆，得证.
+	\qed{}
+\end{proof}
+
+\begin{remark}
+	Jordan标准型三段论：
+	\begin{itemize}
+		\item Jordan块成立
+		\item Jordan标准型成立
+		\item 相似关系下，普通的矩阵成立
+	\end{itemize}
+	Jordan-Chevally也需要注意一下存在和唯一性.
+\end{remark}
+
+\section*{Day 2}
+
+华中21年这套题的质量不错，虽然好几道白皮书原题(华中经典-,-)，但仔细一想还是有点巧妙的题。第一题我反而觉得白皮书
+的解法有点过于...过程太少一步就写完了，某公众号给的好像也类似，这里换一种简单的解法。并且把题目结论加强一下。
+
+\begin{ex}[华中2021]
+	设$A$为$n$阶方阵，且$A$的元素均为整数，证明：$\dfrac{1}{2}$不是$A$的特征值.
+
+	这里加强一下，证明：$Ax=\dfrac{q}{p}x$必没有非零解. ($p>1$)
+\end{ex}
+
+\begin{proof}
+	我们证明加强的结论，白皮书p272的解答就一步hh. 
+
+	$Ax=\dfrac{q}{p}x$没有非零解，说明$\dfrac{q}{p}$是矩阵$A$的特征值，$x$是其对应的
+	特征向量，于是我们假设$A$的特征多项式$f(\lambda) = \lambda^n + a_{n-1}\lambda^{n-1}
+	+ \dots + a_1 \lambda + a_0$. 因为$A$是整系数多项式，则其特征多项式也是整系数的，那么
+	$\dfrac{q}{p}$也是特征多项式的根，则根据整系数多项式有根的必要条件，$p \,|\, 1, q \,|\, a_0$，于是
+	$p=\pm 1$, 与$p>1$矛盾.
+	\qed{}
+\end{proof}
+
+\begin{ex}[华中2021]
+	设$A,B$为两个同阶实矩阵，且$A$为正定阵，$B$为反对称矩阵，证明：
+	$$
+		| A + B | \geq | A |
+	$$
+	并说明不等式中等号何时成立.
+\end{ex}
+
+\begin{proof}
+	这道题的公众号解法也一言难尽，虽然对的，但个人不喜欢这种解法，我们用之前在前面所说的同时合同
+	标准化来解.
+
+	根据前面的同时合同标准化可知，存在可逆阵$C$使得
+	
+	$C^\prime A C = I_n, C^\prime B C = diag\left\{ \begin{pmatrix}
+		0 & b_1 \\
+		-b_1 & 0
+	\end{pmatrix}, \dots, \begin{pmatrix}
+		0 & b_r \\
+		-b_r & 0
+	\end{pmatrix},0,\dots, 0\right\},$其中$b_1,\dots,b_r$为非零实数.
+
+	则有
+	\begin{align*}
+		|C^\prime | \, |A+B| \, |C| &= |I_n +  diag\left\{ \begin{pmatrix}
+			0 & b_1 \\
+			-b_1 & 0
+		\end{pmatrix}, \dots, \begin{pmatrix}
+			0 & b_r \\
+			-b_r & 0
+		\end{pmatrix},0,\dots, 0\right\}| \\
+		&= | diag \left\{ \begin{pmatrix}
+			1 & b_1 \\
+			-b_1 & 1
+		\end{pmatrix}, \dots, \begin{pmatrix}
+			1 & b_r \\
+			-b_r & 1
+		\end{pmatrix},1,\dots, 1 \right\} \\
+		&= (1+b_1^2)(1+b_2^2)\cdots (1+b_r^2) \\
+		&\geq 1 = |C^\prime A C | = | C^\prime | \, |A| \, |C|
+	\end{align*}
+	当且仅当$B$为0矩阵.
+	\qed{}
+\end{proof}
+
+一道简单的正交矩阵的结论，即若正交阵的特征值为实数，则一定是对称阵.
+
+\begin{ex}[华中2021]
+	设$\sigma$为欧氏空间$V$上的正交变换，且特征值为实数，证明：$\bigl( \alpha, \sigma(\beta) \bigr)
+	=\bigl( \sigma(\alpha), \beta \bigr)$
+\end{ex}
+
+\begin{proof}
+	题目言简意赅hh，这个内积一看就知道要证明$\sigma^\ast = \sigma$，为什么这么说：把左边的$sigma$踢过去.
+	$$
+		\bigl( \sigma(\alpha), \beta \bigr) = \bigl( \alpha, \sigma^\ast (\beta)\bigr)
+	$$
+
+	任意取$V$中一组标准正交基，则设$\alpha$在这组基下的表示矩阵为$A$，于是题目要证明的即为$A=A^\ast$. 因为$A$是
+	正交阵(正规阵)，存在正交阵$Q$。  算了，突然一想，这个引理得记住，还是写引理把。
+
+	\begin{lemma}[正交阵的正交相似标准型]
+		设$A$为$n$阶正交阵，则存在正交阵$P$使得:
+		$$
+			P^\prime A P = diag \{ \begin{pmatrix}
+				a_1 & b_1 \\
+				-b_1 & a_1
+			\end{pmatrix}, \dots, \begin{pmatrix}
+				a_r & b_r \\
+				-b_r & a_r
+			\end{pmatrix} \}
+		$$
+	\end{lemma}
+\end{proof}
+
+华中的最后一道大题. 也是白皮书类似的，被谢启鸿老师出成每周一题了.
+
+\begin{ex}[华中2021]
+	设$A$为$n$阶正定阵，$X\in \mathbb{R}^n$为非零列向量，证明：
+	\begin{enumerate}[(1)]
+		\item 矩阵$A+XX^\prime$可逆.
+		\item $0<X^\prime (A+XX^\prime)^{-1}X<1$.
+	\end{enumerate}
+\end{ex}
+
+\begin{proof}
+	(1). 第一小问很容易看出想证明正定阵就行。
+
+	对于任意$\alpha \in \mathbb{R}^n \neq 0$，我们有：
+	\begin{align*}
+		&\alpha^\prime (A+XX^\prime) \alpha \\
+		&=\alpha^\prime A \alpha + (X^\prime \alpha)^\prime X^\prime \alpha \\
+		&=  \,\,\, >0 \,\,\,\,\, +  \geq 0.
+	\end{align*}
+
+	(2). 首先得对这个结构要很熟悉才能立马反应到这个是降阶公式的熟悉的式子，$D-CA^{-1}B$，少了
+	一个$D$怎么办呢，我们用1减呀，$1-X^\prime (A+XX^\prime)X$.
+
+	\begin{align*}
+		\begin{vmatrix}
+			A+XX^\prime & X \\
+			X^\prime & 1
+		\end{vmatrix} 
+		&= 
+		\begin{vmatrix}
+			A+XX^\prime
+		\end{vmatrix}
+		\begin{vmatrix}
+			1 - X^\prime (A+XX^\prime)X
+		\end{vmatrix}
+		\\
+		&= 
+		\begin{vmatrix}
+			1
+		\end{vmatrix}
+		\begin{vmatrix}
+			A+XX^\prime - XX^\prime 
+		\end{vmatrix}
+		\\
+		&= \begin{vmatrix}
+			A
+		\end{vmatrix}
+	\end{align*}
+	$A$是正定阵，则一定$|A|>0$，且$A+XX^\prime>0$，则得证.
+
+	\qed{}
+\end{proof}
+
+这么一看，一共八道题，六道题白皮书？？一模一样？ 华科你也太偷懒了... 
+
+\section*{Day 3}
+
+\begin{ex}[武大 2022]
+	已知$f_1(x),f_2(x)$是次数不超过3的首一互异多项式，且$x^4+x^2+1 \,|\, f_1(x^3)+x^4\cdot f_2(x^3)$. 求$f_1(x),f_2(x)$的最大公因式.
+\end{ex}
+
+\begin{proof}
+	这道题的技巧在多项式那一章介绍过，不过当时有点忘记了，没有写出来，重新复习一下写法.
+
+	用$x^2-1$去乘这个多项式：
+	\begin{align*}
+		&(x^2-1)(x^4+x^2+1)  \\
+		&=x^6 + x^4 + x^2 - x^4 - x^2 -1\\
+		&=x^6-1
+	\end{align*}
+	即$x^4+x^2+1$是$x^6-1$的因式，
+
+	设$\omega_k = \cos \dfrac{2k \pi}{6} + i \cdot \sin \dfrac{2k \pi}{6},(k=0,1,\dots,5)$，$\omega_k^6=1$，
+	
+	由\emph{de Moivre}公式：$(\cos \theta + i \cdot \sin \theta)^n = \cos n \theta + i \cdot \sin n\theta$.
+	可得$\omega_1^3=\omega_5^3=-1,\omega_2^3=\omega_4^3=1$.
+	\begin{equation}
+		\begin{cases}
+			f_1(-1) + \omega_1^4 \cdot f_2(-1) = 0 \\
+			f_1(-1) + \omega_5^4 \cdot f_2(-1) = 0
+			\tag{\textasteriskcentered}
+		\end{cases}
+	\end{equation}
+	方程组$(\ast)$的系数行列式：
+	\begin{align*}
+		\begin{vmatrix}
+			1 & \omega_1^4 \\
+			1 & \omega_5^4
+		\end{vmatrix} = \omega_5^4- \omega_1^4\neq 0
+	\end{align*}
+	另一组：
+	\begin{equation}
+		\begin{cases}
+			f_1(1) + \omega_2^4 \cdot f_2(1) = 0 \\
+			f_1(1) + \omega_4^4 \cdot f_2(1) = 0
+			\tag{\textasteriskcentered \textasteriskcentered}
+		\end{cases}
+	\end{equation}
+	方程组$(\ast \ast)$的系数行列式：
+	\begin{align*}
+		\begin{vmatrix}
+			1 & \omega_2^4 \\
+			1 & \omega_4^4
+		\end{vmatrix} = \omega_4^4- \omega_2^4\neq 0
+	\end{align*}
+	于是$f_1(1)=f_1(-1)=f_2(1)=f_2(-1)=0$，即$x^2-1 \, | \, f_1(x),x^2-1 \, | \, f_2(x)$.
+	\qed{}
+\end{proof}
+
+\section*{Day 4}
+
+9月28其实做了一套211的题目，但就写了倒数三题，看着都是秒杀，多解的解法就放在前面的章节整理算了
+，看着秒杀的有点膨胀，然后顺便打了华师的题目，打算今天写一写，下午图书馆如坐针毡， 当时脑子就和
+卡壳了一样，看一道一道不会，欠缺的技巧和思维还是很多，还是得做一点难度的题目，不然后面就出事了...
+
+这套题目会好好整理一下，里面有实在没有思路的，实在看着一点想法都不去想的，也有能做的，熟悉的却没想到。
+
+\begin{ex}[ECNU 2021]
+	设$n$阶矩阵$A(t)=\bigl( a_{ij}(t) \bigr)_{n \times n}$中元素
+    $a_{ij}(t)$是实变量$t$的可微函数，记$A^\prime(t) = \bigl( \dfrac{\d}{\d t} a_{ij}(t) \bigr)$，
+    证明：若对$\forall t \in R$，$|A(t)>0|$，则$\dfrac{\d}{\d t} \ln |A(t)| = tr\bigl( A^{-1} (t) A^\prime(t) \bigr)$.
+\end{ex}
+
+\begin{proof}
+	这题华师摆明了就是考你知不知道行列式求导，不知道的话，如果知道组合定义在考场上还能推导出来，
+	不知道的话，按照西西的话就是：脑子里全是花生米。
+
+	我们先介绍一下代数余子式与伴随矩阵的一些小关系。
+	\begin{align*}
+		A_{ij} = (-1)^{i+j} M_{ij} = A^\ast _{ji}
+	\end{align*}
+
+	再回忆一下迹的求和写法：也就是插入一个指标
+	\begin{align*}
+		tr(AB) = \sum_{i=1}^n c_i = \sum_{i=1}^n \sum_{k=1}^n a_{ik} b_{k i}.
+	\end{align*}
+
+	然后回到这道题，把$A$写成形式行向量，也就是列分块，$A=(\alpha_1,\alpha_2,\dots,
+	\alpha_n)$，根据复合函数求导法则，然后按照求导的那一列展开：
+	\begin{align*}
+		\dfrac{\d}{\d t} \ln |A(t)| &= \dfrac{1}{| A(t) |} \cdot 
+		\sum_{i=1}^n  | \alpha_1, \dots, \alpha_i^\prime , \dots,\alpha_n | \\
+		&= \dfrac{1}{| A(t) |} \cdot \sum_{i=1}^n \sum_{j=1}^n 
+		a_{ij}^\prime A_{ij} \\
+		&= \dfrac{1}{| A(t) |} \cdot \sum_{i=1}^n \sum_{j=1}^n 
+		a_{ij}^\prime A^\ast_{ji} \\
+		&= \dfrac{1}{| A(t) |} \cdot tr\left(A(t)^\prime A^\ast(t)\right) \\
+		&= tr\left(A(t)^\prime A^{-1}(t)\right)
+	\end{align*}
+	\qed{}
+\end{proof}
+
+\begin{ex}[ECNU 2021]
+	设$A$是$n$阶实矩阵，$B$是$n$阶正定阵.
+	\begin{enumerate}
+		\item 证明：存在唯一$n$阶实矩阵$C$满足$BC+CB=A$.
+		\item 证明：对(1)中实矩阵$C$有$BC=CB$当且仅当$AB=BA$.
+	\end{enumerate}
+\end{ex}
+
+\begin{proof}
+	(1).
+	这道题真的不太应该，当时可能晕掉了，实际上前面整理过，也是Cayley-Hamilton定理的直接应用.
+
+	我们回忆一下这个引理：
+	\begin{lemma}
+		设$A,B$为$n$阶方阵，则$AX-XB=C$有唯一解.
+	\end{lemma}
+	证明见之前Cayley-Hamilton定理的应用，这里考虑$BX-X(-B)=A$矩阵方程，则可知有唯一解.
+
+	(2). 
+	充分性：
+
+	构造一个映射$\varphi(X)=BX+XB$，并且注意到这是一个线性同构，$\varphi(X)=0 \implies X=0$，故：
+	\begin{align*}
+		\varphi(BC-CB) &= B(BC-CB) + (BC-CB)B \\
+		&= B(BC+CB) - (BC+CB)B \\
+		&= AB - BA \\
+		&= 0.
+	\end{align*}
+	于是$BC=CB$.
+
+	必要性：注意到$B$是正定，故可逆.
+
+	\begin{align*}
+		AB&=BA \\
+		BCB + CBB &= BBC + BCB \\	
+		CB^2 &= B^2 C\\
+		CB&=BC
+	\end{align*}
+	\qed{}
+\end{proof}

@@ -1,0 +1,57 @@
+\chapter{多项式}
+
+\begin{introduction}
+	\item 存一寸光阴，换一个世纪.
+	\item -- <爱久见人心>
+\end{introduction}
+
+\section{整除}
+
+整除于多项式的根密切挂钩，如果$g(x) \, | \, f(x)$则$g(x)$的根也是$f(x)$的根。这部分
+还有着友阵，单位根等技巧的灵活运用。
+
+\begin{proposition}
+	假设$f_0(x^5) + x\cdot f_1(x^{10}) + x^2 \cdot f_2(x^{15}) + x^3 \cdot f_3(x^{20})$能被
+	$x^4+x^3+x^2+1$整除，证明：$f_i(x)$能被$x-1$整除.
+\end{proposition}
+
+\begin{proof}
+	这个多项式$x^4+x^3+x^2+x+1$，特别有规律，最后一项$1$乘以$x$得到第二项，第二项依次乘可以一直做下去
+	，有点像循环子空间的感觉了，于是我们乘以$x$再减去他们本身，即用$x-1$去乘这个多项式：
+	\begin{align*}
+		&(x-1)(x^4+x^3+x^2+x+1)\\
+		&=x^5 + x^4 +x^3+x^2+x - x^4 - x^3 - x^2- x - 1\\
+		&=x^5-1
+	\end{align*}
+	即$x^4+x^3+x^2+x+1$是$x^5-1$的因式.
+
+	设5次单位根$\omega_k = \cos \dfrac{2k \pi}{5} + i \cdot \sin \dfrac{2k \pi}{5},(k=0,1,\dots,4)$，$\omega_k^5=1$.
+	\begin{equation}
+		\begin{cases}
+			f_0(1) + \omega_1 \cdot f_1(1) + \omega_1^2 \cdot f_2(1) + 
+			\omega_1^3 \cdot f_3(1) = 0 \\
+			f_0(1) + \omega_2 \cdot f_1(1) + \omega_2^2 \cdot f_2(1) + 
+			\omega_2^3 \cdot f_3(1) = 0 \\
+			f_0(1) + \omega_3 \cdot f_1(1) + \omega_3^2 \cdot f_2(1) + 
+			\omega_3^3 \cdot f_3(1) = 0 \\
+			f_0(1) + \omega_4 \cdot f_1(1) + \omega_4^2 \cdot f_2(1) + 
+			\omega_4^3 \cdot f_3(1) = 0 \tag{\textasteriskcentered}
+		\end{cases}
+	\end{equation}
+	写出$\ast $的系数行列式：
+	\begin{align*}
+		\begin{vmatrix}
+			1 & \omega_1 & \omega_1^2 & \omega_1^3 \\
+			1 & \omega_2 & \omega_2^2 & \omega_2^3 \\
+			1 & \omega_3 & \omega_3^2 & \omega_3^3 \\
+			1 & \omega_4 & \omega_4^2 & \omega_4^3 
+		\end{vmatrix}
+		=\prod _{1\leq i < j \leq 4} (\omega_j - \omega_i)\neq 0.
+	\end{align*}
+	$\implies$ 方程组$(\ast) $只有零解，即$f_i(1)=0,(\forall \,1\leq i \leq 4)$，即$x-1 \, | \, f_i(x)$.
+	\qed{}
+\end{proof}
+
+\begin{remark}
+	如果是$x^4+x^2+1$，我们观察到得乘$x^2$才会匹配，于是，乘以$x^2-1$. 暂时归结为技巧吧
+\end{remark}
