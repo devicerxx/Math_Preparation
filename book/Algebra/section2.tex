@@ -389,7 +389,7 @@
 	\item \emph{il n'y aura jamais d'obscurité}
 \end{introduction}
 
-\section{1}
+\section{xx}
 
 有些题目的标准解法比较的繁琐，虽容易想到，却给人一种解法不漂亮优美的感觉。下面有几道题的解法
 很巧妙，简洁，启发思路。
@@ -603,7 +603,7 @@ Lagrange插值在许多领域都应用广泛，尤其是数值分析。这里我
 	\qed{}
 \end{proof}
 
-\section*{Kronecker积与向量化}
+\section*{Kronecker积与Vectorization向量化}
 
 Kronecker积是一个比较高级的技巧，虽然还会有其他的解法，但用Kronecker积则会比较简便和优美，ZJU也没什么考试
 大纲，有什么就学什么吧.>.<. 
@@ -618,11 +618,159 @@ Kronecker积是一个重要的概念，几何意义是两个线性映射张量�
 	\begin{pmatrix}
 		a_{11}B & a_{12}B & \cdots & a_{1n}B \\
 		a_{21}B & a_{22}B & \cdots & a_{2n}B \\
-		\ddots & \ddots & & \ddots \\
+		\vdots  & \vdots & & \vdots \\
 		a_{n1}B & a_{n2}B & \cdots & a_{nn}B \\
 	\end{pmatrix}
 	$$ 
 \end{definition}
+
+我们给出Kronecker积的一些基本性质：
+
+\begin{proposition}
+	假设矩阵加法和乘法都是有意义的.
+	\begin{enumerate}[(1)]
+		\item $(A+B) \otimes C = A \otimes C + B \otimes C$.
+		\item $(kA) \otimes B = k(A \otimes B) = A \otimes (kB)$.
+		\item $(A \otimes C) \cdot (B \otimes D) = (A\cdot B) \otimes (C\cdot D)$.
+		\item $(A \otimes B) \otimes C = A \otimes (B \otimes C)$.
+		\item $I_m \otimes I_n = I_{mn}$,
+		\item $(A \otimes B)^\prime = \ts{A} \otimes \ts{B}$.
+		\item $(A \otimes B)^{-1} = A^{-1} \otimes B^{-1}$.
+		\item $| A \otimes B | = |A|^n |B| ^m$.
+	\end{enumerate}
+\end{proposition}
+
+上面比较常用的是$(3)$以及$(8)$. 然后我们利用基本性质证明简单的命题：
+\begin{proposition}
+	\begin{enumerate}[(1)]
+		\item $tr(A \otimes B) = tr(A) \cdot tr(B)$.
+		\item $r(A \otimes B) = r(A) \cdot r(B)$.
+	\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+	(1).$tr(A \otimes B)= \sum \limits_{i=1}^n a_{ii} \cdot tr(B) = tr(A) \cdot tr(A)$.
+	
+	(2).设$r(A)=r,r(B)=s$，则存在可逆阵$P_1,Q_1,P_2,Q_2$使得：
+	$$
+		P_1 A Q_1 = \begin{pmatrix}
+			I_r & O \\ O & O 
+		\end{pmatrix}, \quad
+		P_2 B Q_2 = \begin{pmatrix}
+			I_s & O \\ O & O 
+		\end{pmatrix}.
+	$$
+	于是我们有：
+	$$
+		(P_1 \otimes P_2) \cdot (A \otimes B) \cdot (Q_1 \otimes Q_2) = 
+		(P_1 A Q_1) \otimes (P_2 B Q_2) = 
+		\begin{pmatrix}
+			I_{rs} & O \\ O & O
+		\end{pmatrix}
+	$$
+	\qed{}
+\end{proof}
+
+\begin{remark}
+	\begin{itemize}[$\bullet$]
+		\item 和矩阵乘法一样，一般来说$A \otimes B \neq B \otimes A$.
+		\item 我们熟知迹的线性， 即有加号的我们可以拆开，现在对于带有Kronecker积的来说，积也有可以分别拆开的性质。
+	\end{itemize}
+\end{remark}
+
+\begin{definition}[Vectorization向量化]
+	若$A=(a_{ij})$为$n$阶矩阵，则：
+	$$
+		vec(A) = (a_{11},\dots,a_{1n},\dots,a_{n1},\dots,a_{nn})^\prime
+	$$
+	我们把这个称为$A$的向量化(vectorization).
+\end{definition}
+
+我们介绍向量化的几个基本性质：
+\begin{proposition}
+	\begin{enumerate}[(1)]
+		\item $vec(aA+bB) = a \cdot vec(A) + b \cdot vec(B)$.
+		\item $tr( \ts{A} B) = vec(A)^\prime vec(B)$.
+		\item $vec(a \ts{b}) = b \otimes a$.
+		\item $vec(A x\ts{y} B) = (\ts{B} \otimes A) vec(x\ts{y})$.
+		\item $vec(ABC) = (\ts{C} \otimes A) vec(B)$.
+	\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+	(1). 显然易得.
+
+	(2). 我们回忆一下$tr(AB)$的双重求和号写法(插入一个指标)：
+	$$
+		tr(AB) = \sum_{i=1}^n \sum_{k=1}^n a_{ik} b_{ki}.
+	$$
+	于是$tr(\ts{A}B) = \sum_{i=1}^n \sum_{k=1}^n a_{ki} b_{ki} = vec(A)^\prime vec(B)$.
+
+	(3). 秩为1的矩阵，可以分解为$a \ts{b}$的形式，也可以理解为将$a$复制$b$次，将他们向量化排列等价于
+	$b \otimes a$.
+
+	(4). $vec\left( (Ax) \cdot (\ts{B} y)^\prime \right) = (\ts{B} y) \otimes (Ax)= (\ts{B} \otimes A) \cdot (y \otimes x)= (\ts{B} \otimes A) \cdot vec(x \ts{y})$.
+
+	(5). 将$B$按列向量分块，$B=(b_1, b_2,\dots,b_n)$.
+
+	\begin{align*}
+		vec(ABC) &= vec(A \sum_{i=1}^n b_i \ts{e_i} C) \\
+		&= vec(\sum_{i=1}^n A b_i \ts{e_i} C) \\
+		&= \sum_{i=1}^n vec(A b_i \ts{e_i} C) \\
+		&= \sum_{i=1}^n (\ts{C} \otimes A) vec(b_i \ts{e_i}) \\
+		&= (\ts{C} \otimes A) vec(B).
+	\end{align*}
+	\qed{}
+\end{proof}
+
+\begin{remark}
+	第五条是特别重要的一条性质，它意味着可以取出中间的夹心，拿出重要的，把边角料扔到外面.
+\end{remark}
+
+有了这两个厉害的工具，我们就能优雅的解决一些题目，例如$AXB,AX-XB$类型的题目了.
+
+\begin{proposition}[夹心方程]
+	设未知矩阵变量为$X$, 则矩阵方程$AXB=C$有且仅唯一解当且仅当$A,B$为可逆矩阵.
+\end{proposition}
+
+\begin{proof}
+	两边同时取$vec$可得：
+	$$
+		vec(AXB)=vec(C) \implies (\ts{B} \otimes A)vec(X) = vec(C).
+	$$
+	当且仅当$A,B$可逆时，有
+	$$
+		(A \otimes B) \cdot (A^{-1} \otimes B^{-1}) = 
+		I_n \otimes I_m = I_{mn}.
+	$$
+	于是
+	$$
+		vec(X) = \left( (B^{-1})^\prime \otimes A^{-1} \right) \cdot vec(C).
+	$$
+	\qed{}
+\end{proof}
+
+\begin{ex}[川大 2014]
+	设$A,B$是$n$阶实方阵，记$\mathbb{R}$上矩阵方程$AX+XA=B$为$(\ast)$. $B\neq0$，则$(\ast)$
+	有解，证明：存在$(\ast)$的解$X_1, X_2, \dots, X_s$，使得对$(\ast)$的任意解$X$，都有
+	$X=\sum_{i=1}^s k_i x_i,k_i \in \mathbb{R},\sum k_i=1$.
+\end{ex}
+
+\begin{proof}
+	川大的高代题目，每年都是一眼难尽...孩子都被难哭了，还在难。虽然这道题用Kronecker积和向量化再了解
+	非齐次线性方程组的解空间是一个线性流形还是好做的，好做的，好做的 (:D)...
+
+	先回忆一下非齐次线性方程的解：
+
+	对于这个矩阵方程两边同时取$vec$.
+	\begin{align*}
+		vec(AX I_n) + vec(I_n XA) &= vec(B) \\
+		(I_n \otimes A) \cdot vec(X) + (\ts{A} \otimes I_n) \cdot vec(X) &= vec(B) \\
+		(I_n \otimes A + \ts{A} \otimes I_n) \cdot vec(X) &= vec(B)
+	\end{align*}
+
+
+\end{proof}
 
 \chapter{线性空间}
 
@@ -630,7 +778,7 @@ Kronecker积是一个重要的概念，几何意义是两个线性映射张量�
 	\item 有了一些增加或减少，
 	\item 或在上面添加一点或拿走一点，
 	\item 人们在第一眼还是会说大小没变。
-	\item -- $\mathbcal{Euler}$.
+	\item -- $\mathcal{Euler}$.
 \end{introduction}
 
 线性空间的题目大多都比较的抽象，尤其是构造的题目，一般我都做的比较差的，所以总结也颇少，暂时
