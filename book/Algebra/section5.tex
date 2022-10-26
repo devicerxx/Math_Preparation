@@ -374,14 +374,14 @@
 
 	我们回忆一下这个引理：
 	\begin{lemma}
-		设$A,B$为$n$阶方阵，则$AX-XB=C$有唯一解.
+		设$A,B$为$n$阶方阵，且$A,B$没有公共特征值，则$AX-XB=C$有唯一解.
 	\end{lemma}
 	证明见之前Cayley-Hamilton定理的应用，这里考虑$BX-X(-B)=A$矩阵方程，则可知有唯一解.
 
 	(2). 
 	充分性：
 
-	构造一个映射$\varphi(X)=BX+XB$，并且注意到这是一个线性同构，$\varphi(X)=0 \implies X=0$，故：
+	构造一个映射$\varphi(X)=BX+XB$，易证这是一个线性同构，$\varphi(X)=0 \implies X=0$，故：
 	\begin{align*}
 		\varphi(BC-CB) &= B(BC-CB) + (BC-CB)B \\
 		&= B(BC+CB) - (BC+CB)B \\
