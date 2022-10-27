@@ -314,7 +314,7 @@
 
 \newenvironment{solution}[1]{
 	\setlength{\myvertspace}{#1}
-	\par \if@printanswers \par \color{red} \begingroup \else \if@showskip \vspace*{\myvertspace} \fi \setbox\z@\vbox\bgroup\fi \songti
+	\par \if@printanswers \par \color{black} \begingroup \else \if@showskip \vspace*{\myvertspace} \fi \setbox\z@\vbox\bgroup\fi \songti
 }{
 	\par \if@printanswers \endgroup \color{black} \else \egroup \fi \par
 }

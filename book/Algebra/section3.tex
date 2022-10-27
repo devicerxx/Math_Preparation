@@ -204,7 +204,7 @@ Cayley-Hamilton定理是高等代数中特别重要的内容，我们介绍它�
 		\varphi: \,\, M_{m \times n}(\mathbb{K}) &\to M_{m \times n}(\mathbb{K}) \\
 			X \quad \quad  &\mapsto AX-XB
 	\end{align*}
-	$AX-XB=O \Longleftrightarrow X=O$，即$Ker \, \varphi =O$，是单射，且映射是线性同构，因此
+	$AX-XB=O \Longleftrightarrow X=O$，即$\Ker \, \varphi =O$，是单射，且映射是线性同构，因此
 	该线性映射是满射，所以存在唯一解$C$. 
 	\qed{}
 
@@ -436,12 +436,12 @@ $AB$可交换的一些简单的结论:
 	\emph{Methods\,\,\uppercase\expandafter{\romannumeral 1}:}
 
 	由已知我们可以得到$A$适合多项式$f(x)=x^2-1=(x-1)(x+1)$，则$A$的任意特征值$\lambda$也适合
-	该多项式，解得$\lambda=1,\lambda=-1$(不计重数). 则$\lambda=1$时，特征子空间为$V_1=Ker(A-I_V)$，
-	当$\lambda=-1$时，特征子空间为$V_2=Ker (A + I_V)$.
+	该多项式，解得$\lambda=1,\lambda=-1$(不计重数). 则$\lambda=1$时，特征子空间为$V_1=\Ker(A-I_V)$，
+	当$\lambda=-1$时，特征子空间为$V_2=\Ker (A + I_V)$.
 
 	下面证明一个引理：设$f_1(x),f_2(x)$为数域$\mathbb{R}$上的互素多项式，$\varphi$为$n$维线性空间
-	$V$上的线性变换，且满足$f_1(\varphi) f_2(\varphi)=0$，则$V = V_1 \oplus V_2$，$V_1 = Ker f_1(\phi)，
-	V_2 = Ker f_(\varphi)$.
+	$V$上的线性变换，且满足$f_1(\varphi) f_2(\varphi)=0$，则$V = V_1 \oplus V_2$，$V_1 = \Ker f_1(\phi)，
+	V_2 = \Ker f_(\varphi)$.
 
 	$f_1(x), f_2(x)$互素$\implies $ $\exists u(x),v(x) \in R[x]$, \emph{s.t.},
 	$$
@@ -454,19 +454,19 @@ $AB$可交换的一些简单的结论:
 	$$
 	f_1(\varphi) \cdot u(\varphi)(\alpha) + f_2(\varphi) \cdot v(\varphi)(\alpha) = \alpha,
 	$$
-	注意到$f_1(\varphi) u(\varphi) \in Ker \, f_2(\varphi)$，$f_2(\varphi) v(\varphi) \in
-	Ker \, f_1(\varphi)$，且$\alpha$是任意的，则
+	注意到$f_1(\varphi) u(\varphi) \in \Ker \, f_2(\varphi)$，$f_2(\varphi) v(\varphi) \in
+	\Ker \, f_1(\varphi)$，且$\alpha$是任意的，则
 	$$
 		V = V_1 + V_2
 	$$
-	任取$\beta \in Ker \, f_1(\varphi) \bigcap f_2(\varphi)$，两边同时作用$\beta$在$\ast $中.
+	任取$\beta \in \Ker \, f_1(\varphi) \bigcap f_2(\varphi)$，两边同时作用$\beta$在$\ast $中.
 	$$
 		u(\varphi) \cdot f_1(\varphi) (\beta) + v(\varphi) f_2(\varphi) (\beta) = \beta
 	$$
 	$$
 		0 + 0 = \beta,
 	$$
-	因为$\beta$是任取的，所以$Ker \, f_1(\varphi) \bigcap Ker \, f_2(\varphi)=0$，
+	因为$\beta$是任取的，所以$\Ker \, f_1(\varphi) \bigcap \Ker \, f_2(\varphi)=0$，
 	则$V=V_1 \oplus  V_2$.
 
 	我们注意到，$f(x)=x^2-1=h(x) \cdot g(x), h(x)=x-1, g(x)=x+1$，且$\bigl( h(x), g(x) \bigr)=1$

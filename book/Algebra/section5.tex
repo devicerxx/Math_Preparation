@@ -15,7 +15,7 @@
 \begin{ex}[苏大2022]
 	设$A,B$分别为$s \times k$和$k \times n$阶矩阵，$X$为$n$维列向量，记$V = \{ BX \,|\, ABX = 0 \}$. 证明：
 	$$
-		dim \, V = r(B) - r(AB)
+		\dim \, V = r(B) - r(AB)
 	$$
 \end{ex}
 
@@ -24,7 +24,7 @@
 
 	$A,B$为线性空间$V$上的线性变换，求证：
 	$$
-		r(A) = r(BA) + dim \, (Im \, A \cap Ker \, B).
+		r(A) = r(BA) + \dim \, (\IM \, A \cap \Ker \, B).
 	$$
 
 	\begin{align*}
@@ -36,23 +36,23 @@
 		V &\stackrel{A}{\longrightarrow } \,\,V\, \stackrel{B}{\longrightarrow } V \\
 		x\, &\longmapsto  Ax \longmapsto BAx
 	\end{align*}
-	于是有关$B$的映射，我们可以做限制，$Im \, A \stackrel{B^\prime}{\longrightarrow } B$，$B^\prime = B\lm{Im \, A}$.
+	于是有关$B$的映射，我们可以做限制，$\IM \, A \stackrel{B^\prime}{\longrightarrow } B$，$B^\prime = B\lm{\IM \, A}$.
 
 	根据维数公式：
 	$$
-		dim \, Im \, A = dim \, Im \, B^\prime + Ker \, B^\prime 
+		\dim \, \IM \, A = \dim \, \IM \, B^\prime + \Ker \, B^\prime 
 	$$
 	\begin{align*}
-		Im \, B^\prime &= Im \, BA \\
-		Ker \, B^\prime &= Ker \, B \cap Im \, A
+		\IM \, B^\prime &= \IM \, BA \\
+		\Ker \, B^\prime &= \Ker \, B \cap \IM \, A
 	\end{align*}
 	于是得证.
 
-	回到我们这题，把$A,B$看错线性映射，于是题目要证明的即$V = Ker \,A \cap Im \, B$.
+	回到我们这题，把$A,B$看错线性映射，于是题目要证明的即$V = \Ker \,A \cap \IM \, B$.
 
 	根据上面的引理，将$A,B$换个位置即得：
 	$$
-		r(B) = r(AB) + dim \, V
+		r(B) = r(AB) + \dim \, V
 	$$
 	\qed{}
 \end{proof}

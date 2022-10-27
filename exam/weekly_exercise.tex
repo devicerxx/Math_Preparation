@@ -1,0 +1,30 @@
+% 使用 BHCexam 文档类，并传递选项
+\documentclass{BHCexam}
+\usepackage{hyperref}
+\usepackage{mathtools}
+\usepackage{nicematrix}
+\usepackage{unicode-math}
+\usepackage{amsthm}
+\usepackage{xcolor}
+
+\newcommand\vc{\alpha^\prime}
+\newcommand\ts[1]{#1^{\prime}}
+\newcommand\qqed{\par \hfill $\blacksquare$ \par}
+\newcommand\lm[1]{|_{_{#1}}}
+
+\let\mathbb\relax % remove the definition by unicode-math
+\DeclareMathAlphabet{\mathbb}{U}{msb}{m}{n}
+
+\includeonly{exercise/2021}
+
+\begin{document}
+	% 第一行主标题
+	
+	% 考试说明
+	% \notice{注：满分150分, 180分钟完成.}
+	
+	% % 生成试卷头
+    \include{exercise/2021.tex}
+	
+
+\end{document}
