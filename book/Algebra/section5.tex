@@ -186,26 +186,32 @@
 \end{ex}
 
 \begin{proof}
-	题目言简意赅hh，这个内积一看就知道要证明$\sigma^\ast = \sigma$，为什么这么说：把左边的$sigma$踢过去.
+	题目言简意赅hh，这个内积一看就知道要证明$\sigma^\ast = \sigma$，为什么这么说：把左边的$\sigma$踢过去.
 	$$
 		\bigl( \sigma(\alpha), \beta \bigr) = \bigl( \alpha, \sigma^\ast (\beta)\bigr)
 	$$
 
-	任意取$V$中一组标准正交基，则设$\alpha$在这组基下的表示矩阵为$A$，于是题目要证明的即为$A=A^\ast$. 因为$A$是
+	任意取$V$中一组标准正交基，则设$\sigma$在这组基下的表示矩阵为$A$，于是题目要证明的即为$A=A^\ast$. 因为$A$是
 	正交阵(正规阵)，存在正交阵$Q$。  算了，突然一想，这个引理得记住，还是写引理把。
 
 	\begin{lemma}[正交阵的正交相似标准型]
 		设$A$为$n$阶正交阵，则存在正交阵$P$使得:
 		$$
 			P^\prime A P = diag \{ \begin{pmatrix}
-				a_1 & b_1 \\
-				-b_1 & a_1
+				\cos \theta_1 & \sin \theta_1 \\
+				-\sin \theta_1 & \cos \theta_1
 			\end{pmatrix}, \dots, \begin{pmatrix}
-				a_r & b_r \\
-				-b_r & a_r
-			\end{pmatrix} \}
+				\cos \theta_r & \sin \theta_r \\
+				-\sin \theta_r & \cos \theta_r
+			\end{pmatrix}, -1,\dots,-1,1,\dots,1 \}=\Lambda 
 		$$
 	\end{lemma}
+	由于特征值都是实数，故特征值都是$-1$或$1$，于是：
+	$$
+		\ts{A} = \left( (\ts{P})^{-1} \Lambda P^{-1} \right)^\prime = P  \Lambda \ts{P} = A
+	$$
+	故$A$是一个对称阵.
+	\qed{}
 \end{proof}
 
 华中的最后一道大题. 也是白皮书类似的，被谢启鸿老师出成每周一题了.
