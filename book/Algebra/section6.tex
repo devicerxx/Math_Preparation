@@ -1,0 +1,47 @@
+\chapter{谢启鸿每周一题}
+
+\begin{introduction}
+	\item zzz
+\end{introduction}
+
+每周一题有些好难QAQ... 
+
+\section{2022 高代 \uppercase\expandafter{\romannumeral 2}}
+
+\begin{proposition}
+    设$A$为$n$阶实对称阵，$B$为$n$阶半正定实对称阵，满足$|A+iB|=0$，求证：存在$n$维非零
+    实列向量，使得$A\alpha = B \alpha = 0$.
+\end{proposition}
+
+\begin{proof}
+    这道题收到了某公众号的不良影响，记忆来记那个东西是真的害人，有些公众号写的错误自己都不
+    检查一下吗？？？
+
+    记录一下正经解法，看完觉得这个过程没有那么难构造，一步一步构造出来就好，缺什么补什么，谈不上巧妙这题，检验基础不错的题。
+
+    看到$B$为半正定实对称阵，自带许多有用的性质，$A$相对比较普通。我们先尝试一下，将$iB$这个给变的
+    简单一点。存在可逆阵$C$，使得$C^\prime B C = \begin{pmatrix}
+        I_r & O \\ O & O
+    \end{pmatrix}$，其中$r(B)=r$.
+    $$
+        |A+iB|=0 \implies |C^\prime| \cdot |A+iB| \cdot |C| = 0 \implies
+        |C^\prime A C + i \cdot I_r|.
+    $$
+    这个时候$i$这边变简单了，注意到$\ts{C} A C $仍为对称阵，存在可逆(正交阵)$P$，使得
+    $\ts{P} \ts{C} A C P=\{ \lambda_1, \lambda_2 , \dots, \lambda_n \}$，其中$\lambda_1,\lambda_2,\dots,\lambda_n$
+    为$\ts{C}AC$的全体特征值，于是有：
+    $$
+        |P^\prime| | \ts{C} A C + i \cdot I_r| | P | = 0 \implies 
+        |diag\{ \lambda_1, \lambda_2, \dots, \lambda_n \} + i \cdot I_r| = 0
+    $$
+    然后这个行列式可以拆解为$(\lambda_1 + i)(\lambda_2+ i) \cdots (\lambda_r + i) \lambda_{r+1} \cdots \lambda_n$，
+    其中前$r$项是不为$0$的，于是存在正整数$k \in [r+1, n]$，$\lambda_{k}=0$，不妨设$k=n$。取$\alpha=
+    CP(0,\dots,1)^\prime$，于是有：
+    $$
+        \ts{P} \ts{C} (A+iB) \alpha = diag\{ (\lambda_1+i),\dots,(\lambda_r+i),\lambda_{r+1},\dots,\lambda_n \}(0,\dots,1)^\prime 
+        = 0
+    $$
+    其中$P,C$非异，因此消去，故$(A+iB)\alpha=0$，于是$A\alpha=0,B\alpha=0$.
+    \qed
+\end{proof}
+
